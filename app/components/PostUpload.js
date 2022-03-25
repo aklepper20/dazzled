@@ -3,6 +3,7 @@ import React, { useState } from "react";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
+import validUrl from "valid-url";
 
 const PLACEHOLDER_IMG =
   "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
@@ -12,13 +13,16 @@ const uploadPostSchema = Yup.object().shape({
   caption: Yup.string().max(2200, "Caption has reached the character limit."),
 });
 
-const PostUpload = () => {
+const PostUpload = ({ navigation }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
 
   return (
     <Formik
       initialValues={{ caption: "", imageUrl: "" }}
-      onSubmit={(values) => console.log(values)}
+      onSubmit={(values) => {
+        console.log(values);
+        navigation.goBack();
+      }}
       validationSchema={uploadPostSchema}
       validateOnMount={true}
     >
@@ -34,7 +38,11 @@ const PostUpload = () => {
           <View style={styles.container}>
             <Image
               style={styles.placeholderImage}
-              source={{ uri: thumbnailUrl ? thumbnailUrl : PLACEHOLDER_IMG }}
+              source={{
+                uri: validUrl.isUri(thumbnailUrl)
+                  ? thumbnailUrl
+                  : PLACEHOLDER_IMG,
+              }}
             />
             <View style={styles.captionContainer}>
               <TextInput

@@ -2,18 +2,18 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import PostUpload from "./PostUpload";
 
-const AddNewPost = () => {
+const AddNewPost = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Header />
-      <PostUpload />
+      <Header navigation={navigation} />
+      <PostUpload navigation={navigation} />
     </View>
   );
 };
 
-const Header = () => (
+const Header = ({ navigation }) => (
   <View style={styles.headerContainer}>
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.goBack()}>
       <Image
         style={styles.imageBack}
         source={{

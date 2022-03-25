@@ -23,11 +23,15 @@ export const bottomTabIcons = [
   },
 ];
 
-const BottomTabs = ({ icons }) => {
+const BottomTabs = ({ icons, navigation }) => {
   const [activeTab, setActiveTab] = useState("Home");
 
+  const handlePress = (icon) => {
+    setActiveTab(icon.name);
+    navigation.navigate("PostEditScreen");
+  };
   const Icon = ({ icon }) => (
-    <TouchableOpacity onPress={() => setActiveTab(icon.name)}>
+    <TouchableOpacity onPress={() => handlePress(icon)}>
       <Image
         source={{ uri: activeTab === icon.name ? icon.active : icon.inactive }}
         style={styles.icon}

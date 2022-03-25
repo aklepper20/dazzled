@@ -5,7 +5,7 @@ import Post from "../components/Post";
 import BottomTabs from "../components/BottomTabs";
 import { bottomTabIcons } from "../components/BottomTabs";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const posts = [
     {
       name: "aly",
@@ -48,7 +48,7 @@ const HomeScreen = () => {
           <Post post={post} key={index} />
         ))}
       </ScrollView>
-      <BottomTabs icons={bottomTabIcons} />
+      <BottomTabs icons={bottomTabIcons} navigation={navigation} />
     </SafeAreaView>
   );
 };

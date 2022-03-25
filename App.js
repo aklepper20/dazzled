@@ -3,10 +3,10 @@ import HomeScreen from "./app/screens/HomeScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import NewPostButton from "./app/components/NewPostButton";
+import PostEditScreen from "./app/screens/PostEditScreen";
 
 export default function App() {
-  return <HomeScreen />;
+  return <PostEditScreen />;
 }
 
 const styles = StyleSheet.create({});

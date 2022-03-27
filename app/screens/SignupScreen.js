@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import React from "react";
 import LoginForm from "../components/LoginForm";
+import SignUpForm from "../components/SignUpForm";
 
-const LoginScreen = ({ navigation }) => {
+const SignupScreen = ({ navigation }) => {
   return (
     <ImageBackground
       blurRadius={5}
@@ -13,12 +14,12 @@ const LoginScreen = ({ navigation }) => {
         <Text style={styles.logo}>Dazzled</Text>
         <Text>Tagline for dazzled</Text>
       </View>
-      <LoginForm navigation={navigation} />
+      <SignUpForm navigation={navigation} />
     </ImageBackground>
   );
 };
 
-export default LoginScreen;
+export default SignupScreen;
 
 const styles = StyleSheet.create({
   background: {

@@ -7,14 +7,16 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
+import LoginForm from "./LoginForm";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
 
-const LoginForm = ({ navigation }) => {
-  const LoginFormSchema = Yup.object().shape({
+const SignUpForm = ({ navigation }) => {
+  const SignUpFormSchema = Yup.object().shape({
     email: Yup.string().email().required("An email is required"),
+    username: Yup.string().required().min(2, "A username is required"),
     password: Yup.string()
       .required()
       .min(6, "Password must have at least 8 characters"),
@@ -22,11 +24,11 @@ const LoginForm = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "", username: "", password: "" }}
         onSubmit={(values) => {
           console.log(values);
         }}
-        validationSchema={LoginFormSchema}
+        validationSchema={SignUpFormSchema}
         validateOnMount={true}
       >
         {({
@@ -51,7 +53,7 @@ const LoginForm = ({ navigation }) => {
             >
               <TextInput
                 placeholderTextColor="#444"
-                placeholder="Phone number, email or usename"
+                placeholder="Enter your email"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 textContentType="emailAddress"
@@ -66,6 +68,35 @@ const LoginForm = ({ navigation }) => {
                 {errors.email}
               </Text>
             )}
+            <View
+              style={[
+                styles.inputField,
+                {
+                  borderColor:
+                    values.username.length < 1 ||
+                    Validator.validate(values.username)
+                      ? "#ccc"
+                      : "red",
+                },
+              ]}
+            >
+              <TextInput
+                placeholderTextColor="#444"
+                placeholder="Enter a username..."
+                autoCapitalize="none"
+                textContentType="username"
+                autoFocus={true}
+                onChangeText={handleChange("username")}
+                onBlur={handleBlur("username")}
+                value={values.username}
+              />
+            </View>
+            {errors.username && (
+              <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
+                {errors.username}
+              </Text>
+            )}
+
             <View>
               <TextInput
                 style={[
@@ -101,12 +132,12 @@ const LoginForm = ({ navigation }) => {
               style={styles.button(isValid)}
               onPress={handleSubmit}
             >
-              <Text style={styles.buttonText}>Log in</Text>
+              <Text style={styles.buttonText}>Sign up!</Text>
             </Pressable>
             <View style={styles.signupContainer}>
-              <Text>Don't have an account? </Text>
-              <TouchableOpacity onPress={() => navigation.push("SignupScreen")}>
-                <Text style={styles.signUpText}>Sign Up!</Text>
+              <Text>Already have an account?</Text>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Text style={styles.signUpText}>Log in!</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -116,7 +147,7 @@ const LoginForm = ({ navigation }) => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;
 
 const styles = StyleSheet.create({
   button: (isValid) => ({

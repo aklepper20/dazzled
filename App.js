@@ -1,9 +1,8 @@
 import { StyleSheet } from "react-native";
-
-import LoginScreen from "./app/screens/LoginScreen";
+import SignedInStack from "./app/screens/navigation";
 
 export default function App() {
-  return <LoginScreen />;
+  return <SignedInStack />;
 }
 
 const styles = StyleSheet.create({});

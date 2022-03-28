@@ -26,11 +26,10 @@ const LoginForm = ({ navigation }) => {
   const onLogin = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("hi it worked", email, password);
     } catch (err) {
       Alert.alert(
-        "User,",
-        err.message + "\n\n... Please login again or sign up...",
+        `${email}, there's an issue!`,
+        err.message + "\n\n Please login again or sign up...",
         [
           {
             text: "Try Again",

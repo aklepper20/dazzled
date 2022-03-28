@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 import React from "react";
-import LoginForm from "../components/LoginForm";
 import SignUpForm from "../components/SignUpForm";
 
 const SignupScreen = ({ navigation }) => {

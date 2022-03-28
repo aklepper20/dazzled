@@ -1,11 +1,31 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
-import React from "react";
+import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import Post from "../components/Post";
 import BottomTabs from "../components/BottomTabs";
 import { bottomTabIcons } from "../components/BottomTabs";
-
+import { db } from "../../firebase";
+import { getDocs, collectionGroup, doc, onSnapshot } from "firebase/firestore";
+import { async } from "@firebase/util";
 const HomeScreen = ({ navigation }) => {
+  // await setDoc(doc(db, "users", authUser.user.uid),
+
+  const fetchPosts = () => {
+    // const postsRef = collectionGroup(db, "posts");
+    // let allPosts = await getDocs(postsRef);
+    // console.log(allPosts);
+  };
+
+  useEffect(() => {
+    // collectionGroup(db, "posts").onSnapshot((snap) => {
+    //   console.log(snap.docs.map((doc) => doc.data()));
+    // });
+    const newPost = onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
+      console.log(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    });
+    return newPost;
+  }, []);
+
   const posts = [
     {
       name: "aly",

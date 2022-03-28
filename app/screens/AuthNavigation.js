@@ -11,6 +11,7 @@ const AuthNavigation = () => {
   useEffect(() => {
     return auth.onAuthStateChanged((user) => userHandler(user));
   }, []);
+
   return <>{currentUser ? <SignedInStack /> : <SignedOutStack />}</>;
 };
 

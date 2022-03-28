@@ -1,10 +1,20 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
+import auth from "../../firebase";
+import { signOut } from "firebase/auth";
 
-const Header = ({ navigation }) => {
+const Header = () => {
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleSignOut}>
         <Text style={styles.logo}>Dazzled</Text>
       </TouchableOpacity>
       <View style={styles.action}>

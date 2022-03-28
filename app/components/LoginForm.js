@@ -12,8 +12,9 @@ import React, { useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
-import { auth } from "../../firebase";
+import auth from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+
 const LoginForm = ({ navigation }) => {
   const LoginFormSchema = Yup.object().shape({
     email: Yup.string().email().required("An email is required"),
@@ -25,9 +26,23 @@ const LoginForm = ({ navigation }) => {
   const onLogin = async (email, password) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("🔥 firebase login success ", password);
+      console.log("hi it worked", email, password);
     } catch (err) {
-      Alert.alert(err.message);
+      Alert.alert(
+        "User,",
+        err.message + "\n\n... Please login again or sign up...",
+        [
+          {
+            text: "Try Again",
+            onPress: () => console.log("OK"),
+            style: "cancel",
+          },
+          {
+            text: "Sign up",
+            onPress: () => navigation.push("SignupScreen"),
+          },
+        ]
+      );
     }
   };
 

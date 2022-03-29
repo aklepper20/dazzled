@@ -1,18 +1,27 @@
 import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Post from "../components/Post";
 import BottomTabs from "../components/BottomTabs";
 import { bottomTabIcons } from "../components/BottomTabs";
 import { db } from "../../firebase";
-import { getDocs, collectionGroup, doc, onSnapshot } from "firebase/firestore";
+import auth from "../../firebase";
+import {
+  getDocs,
+  collectionGroup,
+  doc,
+  onSnapshot,
+  collection,
+} from "firebase/firestore";
 
 const HomeScreen = ({ navigation }) => {
   useEffect(() => {
-    const allPosts = onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
-      snapshot.docs.map((doc) => doc.data());
-    });
-    return allPosts;
+    //get ALL the users posts
+    //     const allPosts = onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
+    //       snapshot.docs.map((doc) => doc.data());
+    //     });
+    //     return allPosts;
+    // getUserPost();
   }, []);
 
   const posts = [

@@ -24,10 +24,11 @@ const uploadPostSchema = Yup.object().shape({
   caption: Yup.string().max(2200, "Caption has reached the character limit."),
 });
 
-const PostUpload = ({ navigation }) => {
+const PostUpload = ({ navigation, usersPosts }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const [loggedInUserId, setLoggedInUserId] = useState(auth.currentUser.email);
+  console.log(usersPosts);
 
   const getUsername = () => {
     const user = auth.currentUser.email;
@@ -37,21 +38,50 @@ const PostUpload = ({ navigation }) => {
       }
     }
   };
-
   useEffect(() => {
     getUsername();
   }, []);
 
+  onSnapshot(doc(db, "users", `${auth.currentUser.email}`), (snapshot) => {
+    let posts = snapshot
+      .data()
+      .postsArr.map((post, id) => ({ ...post, id: id }));
+  });
+
   const addUserPost = async (caption, imageUrl) => {
-    // const newPost =         {
-    //     imageUrl: imageUrl,
-    //     caption: caption,
-    //     user: loggedInUsername,
-    //     owner_uid: auth.currentUser.uid,
-    //     likes: 0,
-    //     likes_by_users: [],
-    //     comments: [],
-    //   },
+    const docRef = doc(db, "users", loggedInUserId);
+
+    const newPost = {
+      imageUrl: imageUrl,
+      caption: caption,
+      user: loggedInUsername,
+      owner_uid: auth.currentUser.uid,
+      likes: 0,
+      likes_by_users: [],
+      comments: [],
+    };
+
+    let postsRef = usersPosts;
+    usersPosts.push(newPost);
+
+    const postPayload = {
+      postsArr: postsRef,
+    };
+    setDoc(docRef, postPayload).then(() => navigation.goBack());
+    // await setDoc(doc(db, "users", loggedInUserId), {
+    //   postsArr: [
+    //     ...postsArr,
+    //     {
+    //       imageUrl: imageUrl,
+    //       caption: caption,
+    //       user: loggedInUsername,
+    //       owner_uid: auth.currentUser.uid,
+    //       likes: 0,
+    //       likes_by_users: [],
+    //       comments: [],
+    //     },
+    //   ],
+    // }).then(() => navigation.goBack());
     // await setDoc(doc(db, "users", loggedInUserId), {
     //   postsArr: [
     //     {
@@ -65,7 +95,6 @@ const PostUpload = ({ navigation }) => {
     //     },
     //   ],
     // }).then(() => navigation.goBack());
-    console.log("hi");
   };
 
   return (

@@ -2,11 +2,11 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import PostUpload from "./PostUpload";
 
-const AddNewPost = ({ navigation }) => {
+const AddNewPost = ({ navigation, usersPosts }) => {
   return (
     <View style={styles.container}>
       <Header navigation={navigation} />
-      <PostUpload navigation={navigation} />
+      <PostUpload navigation={navigation} usersPosts={usersPosts} />
     </View>
   );
 };

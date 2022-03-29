@@ -29,15 +29,15 @@ const SignUpForm = ({ navigation }) => {
   const addPostsArrFirebase = async () => {
     await setDoc(doc(db, "users", auth.currentUser.email), {
       postsArr: [
-        {
-          imageUrl: null,
-          caption: null,
-          user: null,
-          owner_uid: null,
-          likes: null,
-          likes_by_users: null,
-          comments: null,
-        },
+        // {
+        //   imageUrl: null,
+        //   caption: null,
+        //   user: null,
+        //   owner_uid: null,
+        //   likes: null,
+        //   likes_by_users: null,
+        //   comments: null,
+        // },
       ],
     });
   };

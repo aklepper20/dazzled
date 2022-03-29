@@ -20,15 +20,14 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUpForm = ({ navigation }) => {
   const SignUpFormSchema = Yup.object().shape({
-    email: Yup.string().email().required("An email is required"),
-    username: Yup.string().required().min(2, "A username is required"),
+    email: Yup.string().email().required("Email Required"),
     password: Yup.string()
-      .required()
+      .required("Password Required")
       .min(6, "Password must have at least 8 characters"),
   });
 
-  const onSignUp = async (email, username, password) => {
-    console.log(username);
+  const onSignUp = async (email, password) => {
+    console.log(email, password);
     try {
       const authUser = await createUserWithEmailAndPassword(
         auth,
@@ -37,7 +36,6 @@ const SignUpForm = ({ navigation }) => {
       );
       await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,
-        displayName: username,
         email: authUser.user.email,
       });
     } catch (err) {
@@ -48,9 +46,9 @@ const SignUpForm = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Formik
-        initialValues={{ email: "", username: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
-          onSignUp(values.email, values.username, values.password);
+          onSignUp(values.email, values.password);
         }}
         validationSchema={SignUpFormSchema}
         validateOnMount={true}
@@ -62,6 +60,7 @@ const SignUpForm = ({ navigation }) => {
           values,
           isValid,
           errors,
+          touched,
         }) => (
           <>
             <View
@@ -87,40 +86,11 @@ const SignUpForm = ({ navigation }) => {
                 value={values.email}
               />
             </View>
-            {errors.email && (
+            {errors.email && touched.email && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.email}
               </Text>
             )}
-            <View
-              style={[
-                styles.inputField,
-                {
-                  borderColor:
-                    values.username.length < 1 ||
-                    Validator.validate(values.username)
-                      ? "#ccc"
-                      : "red",
-                },
-              ]}
-            >
-              <TextInput
-                placeholderTextColor="#444"
-                placeholder="Enter a username..."
-                autoCapitalize="none"
-                textContentType="username"
-                autoFocus={true}
-                onChangeText={handleChange("username")}
-                onBlur={handleBlur("username")}
-                value={values.username}
-              />
-            </View>
-            {errors.username && (
-              <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
-                {errors.username}
-              </Text>
-            )}
-
             <View>
               <TextInput
                 style={[
@@ -143,7 +113,7 @@ const SignUpForm = ({ navigation }) => {
                 value={values.password}
               />
             </View>
-            {errors.password && (
+            {errors.password && touched.password && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.password}
               </Text>

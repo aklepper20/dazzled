@@ -62,6 +62,7 @@ const LoginForm = ({ navigation }) => {
           values,
           isValid,
           errors,
+          touched,
         }) => (
           <>
             <View
@@ -87,7 +88,7 @@ const LoginForm = ({ navigation }) => {
                 value={values.email}
               />
             </View>
-            {errors.email && (
+            {errors.email && touched.email && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.email}
               </Text>
@@ -114,7 +115,7 @@ const LoginForm = ({ navigation }) => {
                 value={values.password}
               />
             </View>
-            {errors.password && (
+            {errors.password && touched.password && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.password}
               </Text>

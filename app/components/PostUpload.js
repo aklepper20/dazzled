@@ -7,7 +7,14 @@ import validUrl from "valid-url";
 
 import { db } from "../../firebase";
 import auth from "../../firebase";
-import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
 const PLACEHOLDER_IMG =
   "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
@@ -19,13 +26,14 @@ const uploadPostSchema = Yup.object().shape({
 
 const PostUpload = ({ navigation }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUsername, setLoggedInUsername] = useState(null);
+  const [loggedInUserId, setLoggedInUserId] = useState(auth.currentUser.email);
 
   const getUsername = () => {
     const user = auth.currentUser.email;
     for (let i in user) {
       if (user[i] === "@") {
-        setLoggedInUser("@" + user.split(user[i])[0]);
+        setLoggedInUsername("@" + user.split(user[i])[0]);
       }
     }
   };
@@ -34,12 +42,37 @@ const PostUpload = ({ navigation }) => {
     getUsername();
   }, []);
 
+  const addUserPost = async (caption, imageUrl) => {
+    // const newPost =         {
+    //     imageUrl: imageUrl,
+    //     caption: caption,
+    //     user: loggedInUsername,
+    //     owner_uid: auth.currentUser.uid,
+    //     likes: 0,
+    //     likes_by_users: [],
+    //     comments: [],
+    //   },
+    // await setDoc(doc(db, "users", loggedInUserId), {
+    //   postsArr: [
+    //     {
+    //       imageUrl: imageUrl,
+    //       caption: caption,
+    //       user: loggedInUsername,
+    //       owner_uid: auth.currentUser.uid,
+    //       likes: 0,
+    //       likes_by_users: [],
+    //       comments: [],
+    //     },
+    //   ],
+    // }).then(() => navigation.goBack());
+    console.log("hi");
+  };
+
   return (
     <Formik
       initialValues={{ caption: "", imageUrl: "" }}
       onSubmit={(values) => {
-        console.log(values);
-        navigation.goBack();
+        addUserPost(values.caption, values.imageUrl);
       }}
       validationSchema={uploadPostSchema}
       validateOnMount={true}
@@ -81,6 +114,7 @@ const PostUpload = ({ navigation }) => {
             onChangeText={handleChange("imageUrl")}
             onBlue={handleBlur("imageUrl")}
             value={values.imageUrl}
+            autoCapitalize="none"
             onChange={(e) => setThumbnailUrl(e.nativeEvent.text)}
           />
           {errors.imageUrl && (

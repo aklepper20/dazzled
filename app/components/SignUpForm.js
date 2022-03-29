@@ -28,15 +28,16 @@ const SignUpForm = ({ navigation }) => {
   });
 
   const onSignUp = async (email, username, password) => {
+    console.log(username);
     try {
       const authUser = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      await setDoc(doc(db, "users", authUser.user.uid), {
+      await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,
-        username: username,
+        displayName: username,
         email: authUser.user.email,
       });
     } catch (err) {

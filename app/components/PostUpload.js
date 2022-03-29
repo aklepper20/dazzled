@@ -1,9 +1,13 @@
 import { StyleSheet, Text, View, Image, TextInput, Button } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import * as Yup from "yup";
 import { Formik } from "formik";
 import validUrl from "valid-url";
+
+import { db } from "../../firebase";
+import auth from "../../firebase";
+import { collection, query, where, onSnapshot, doc } from "firebase/firestore";
 
 const PLACEHOLDER_IMG =
   "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
@@ -15,6 +19,20 @@ const uploadPostSchema = Yup.object().shape({
 
 const PostUpload = ({ navigation }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const getUsername = () => {
+    const user = auth.currentUser.email;
+    for (let i in user) {
+      if (user[i] === "@") {
+        setLoggedInUser("@" + user.split(user[i])[0]);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUsername();
+  }, []);
 
   return (
     <Formik

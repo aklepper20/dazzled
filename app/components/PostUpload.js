@@ -22,6 +22,8 @@ const PostUpload = ({ navigation, usersPosts }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const [loggedInUserId, setLoggedInUserId] = useState(auth.currentUser.email);
+  const [imageUri, setImageUri] = useState(null);
+  const [cameraRollCaption, setCameraRollCaption] = useState("");
 
   const getUsername = () => {
     const user = auth.currentUser.email;
@@ -118,8 +120,13 @@ const PostUpload = ({ navigation, usersPosts }) => {
               {errors.imageUrl}
             </Text>
           )}
-
-          <ImageInput usersPosts={usersPosts} />
+          <ImageInput
+            usersPosts={usersPosts}
+            imageUri={imageUri}
+            setImageUri={setImageUri}
+            setCameraRollCaption={setCameraRollCaption}
+            cameraRollCaption={cameraRollCaption}
+          />
           <Button
             onPress={handleSubmit}
             title="share"
@@ -146,6 +153,7 @@ const styles = StyleSheet.create({
   placeholderImage: {
     width: 100,
     height: 100,
+    borderRadius: 20,
   },
   inputText: {
     color: "white",

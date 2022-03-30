@@ -5,12 +5,20 @@ import {
   Image,
   TouchableWithoutFeedback,
   Alert,
+  Text,
+  TextInput,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
-function ImageInput({ imageUriArr, setImageUriArr }) {
-  const [imageUri, setImageUri] = useState(null);
+function ImageInput({
+  imageUri,
+  setImageUri,
+  cameraRollCaption,
+  setCameraRollCaption,
+}) {
+  //   const [imageUri, setImageUri] = useState(null);
+
   useEffect(() => {
     requestPermission();
   }, []);
@@ -35,31 +43,55 @@ function ImageInput({ imageUriArr, setImageUriArr }) {
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 0.5,
       });
-      console.log(result.uri);
+
       setImageUri(result.uri);
-      //   setImageUri(result.uri);
-      //   setImageUriArr(imageUriArr.push(imageUri));
     } catch (error) {
       console.log("Error reading an image", error);
     }
   };
 
   return (
-    <TouchableWithoutFeedback onPress={selectImage}>
+    <>
+      <Text style={styles.titleText}>Tap to add from camera roll</Text>
       <View style={styles.container}>
-        {!imageUri && (
-          <MaterialCommunityIcons color="black" name="camera" size={40} />
-        )}
-        {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+        <TouchableWithoutFeedback onPress={selectImage}>
+          <View style={styles.imageContainer}>
+            {!imageUri && (
+              <MaterialCommunityIcons color="black" name="camera" size={40} />
+            )}
+            {imageUri && (
+              <Image source={{ uri: imageUri }} style={styles.image} />
+            )}
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={styles.captionContainer}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Enter your caption..."
+            placeholderTextColor="grey"
+            multiline={true}
+            value={cameraRollCaption}
+            onChange={(e) => setCameraRollCaption(e.nativeEvent.text)}
+          />
+        </View>
       </View>
-    </TouchableWithoutFeedback>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  captionContainer: {
+    flex: 1,
+    marginLeft: 12,
+  },
   container: {
+    margin: 20,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  imageContainer: {
     alignItems: "center",
-    backgroundColor: "grey",
+    backgroundColor: "lightgrey",
     borderRadius: 15,
     height: 100,
     justifyContent: "center",
@@ -70,6 +102,18 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
+  },
+  inputText: {
+    color: "white",
+    fontSize: 20,
+    marginTop: 15,
+  },
+  titleText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "600",
+    textAlign: "center",
+    marginTop: 30,
   },
 });
 

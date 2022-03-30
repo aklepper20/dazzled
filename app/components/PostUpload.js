@@ -120,18 +120,21 @@ const PostUpload = ({ navigation, usersPosts }) => {
               {errors.imageUrl}
             </Text>
           )}
+          <Button
+            onPress={handleSubmit}
+            title="Share Image URL"
+            disabled={!isValid}
+          ></Button>
           <ImageInput
             usersPosts={usersPosts}
+            navigation={navigation}
             imageUri={imageUri}
             setImageUri={setImageUri}
             setCameraRollCaption={setCameraRollCaption}
             cameraRollCaption={cameraRollCaption}
+            loggedInUserId={loggedInUserId}
+            loggedInUsername={loggedInUsername}
           />
-          <Button
-            onPress={handleSubmit}
-            title="share"
-            disabled={!isValid}
-          ></Button>
         </>
       )}
     </Formik>

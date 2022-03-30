@@ -7,34 +7,36 @@ import {
   Alert,
   Text,
   TextInput,
+  Button,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-
+import { db } from "../../firebase";
+import auth from "../../firebase";
+import { doc, setDoc } from "firebase/firestore";
 function ImageInput({
   imageUri,
   setImageUri,
   cameraRollCaption,
   setCameraRollCaption,
+  navigation,
+  usersPosts,
+  loggedInUserId,
+  loggedInUsername,
 }) {
-  //   const [imageUri, setImageUri] = useState(null);
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
     requestPermission();
   }, []);
 
+  useEffect(() => {
+    imageUri !== null ? setIsValid(true) : setIsValid(false);
+  }, [imageUri]);
+
   const requestPermission = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!granted) alert("You need to enable permission to access the library.");
-  };
-
-  const handlePress = () => {
-    if (!imageUri) selectImage();
-    else
-      Alert.alert("Delete", "Are you sure you want to delete this image?", [
-        { text: "Yes", onPress: () => onChangeImage(null) },
-        { text: "No" },
-      ]);
   };
 
   const selectImage = async () => {
@@ -48,6 +50,30 @@ function ImageInput({
     } catch (error) {
       console.log("Error reading an image", error);
     }
+  };
+
+  const addUserPost = async () => {
+    const docRef = doc(db, "users", loggedInUserId);
+
+    const newPost = {
+      imageUrl: imageUri,
+      caption: cameraRollCaption,
+      user: loggedInUsername,
+      owner_uid: auth.currentUser.uid,
+      likes: 0,
+      likes_by_users: [],
+      comments: [],
+    };
+
+    let postsRef = usersPosts;
+    usersPosts.push(newPost);
+
+    const postPayload = {
+      postsArr: postsRef,
+    };
+
+    setDoc(docRef, postPayload).then(() => navigation.goBack());
+    setImageUri(null);
   };
 
   return (
@@ -75,6 +101,11 @@ function ImageInput({
           />
         </View>
       </View>
+      <Button
+        style={{ color: isValid ? "blue" : "red" }}
+        onPress={addUserPost}
+        title="Share Your Photo"
+      ></Button>
     </>
   );
 }

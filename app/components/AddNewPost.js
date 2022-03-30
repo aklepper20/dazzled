@@ -21,7 +21,7 @@ const Header = ({ navigation }) => (
         }}
       />
     </TouchableOpacity>
-    <Text style={styles.headerText}>New post</Text>
+    <Text style={styles.headerText}>Add an image</Text>
     <Text></Text>
   </View>
 );

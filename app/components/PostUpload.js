@@ -7,14 +7,8 @@ import validUrl from "valid-url";
 
 import { db } from "../../firebase";
 import auth from "../../firebase";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-  doc,
-  setDoc,
-} from "firebase/firestore";
+import { onSnapshot, doc, setDoc } from "firebase/firestore";
+import ImageInput from "./ImageInput";
 
 const PLACEHOLDER_IMG =
   "https://media.istockphoto.com/vectors/thumbnail-image-vector-graphic-vector-id1147544807?k=20&m=1147544807&s=612x612&w=0&h=pBhz1dkwsCMq37Udtp9sfxbjaMl27JUapoyYpQm0anc=";
@@ -28,7 +22,6 @@ const PostUpload = ({ navigation, usersPosts }) => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const [loggedInUserId, setLoggedInUserId] = useState(auth.currentUser.email);
-  console.log(usersPosts);
 
   const getUsername = () => {
     const user = auth.currentUser.email;
@@ -68,33 +61,6 @@ const PostUpload = ({ navigation, usersPosts }) => {
       postsArr: postsRef,
     };
     setDoc(docRef, postPayload).then(() => navigation.goBack());
-    // await setDoc(doc(db, "users", loggedInUserId), {
-    //   postsArr: [
-    //     ...postsArr,
-    //     {
-    //       imageUrl: imageUrl,
-    //       caption: caption,
-    //       user: loggedInUsername,
-    //       owner_uid: auth.currentUser.uid,
-    //       likes: 0,
-    //       likes_by_users: [],
-    //       comments: [],
-    //     },
-    //   ],
-    // }).then(() => navigation.goBack());
-    // await setDoc(doc(db, "users", loggedInUserId), {
-    //   postsArr: [
-    //     {
-    //       imageUrl: imageUrl,
-    //       caption: caption,
-    //       user: loggedInUsername,
-    //       owner_uid: auth.currentUser.uid,
-    //       likes: 0,
-    //       likes_by_users: [],
-    //       comments: [],
-    //     },
-    //   ],
-    // }).then(() => navigation.goBack());
   };
 
   return (
@@ -136,6 +102,7 @@ const PostUpload = ({ navigation, usersPosts }) => {
               />
             </View>
           </View>
+
           <TextInput
             style={styles.inputText}
             placeholder="Enter image Url"
@@ -151,6 +118,8 @@ const PostUpload = ({ navigation, usersPosts }) => {
               {errors.imageUrl}
             </Text>
           )}
+
+          <ImageInput usersPosts={usersPosts} />
           <Button
             onPress={handleSubmit}
             title="share"

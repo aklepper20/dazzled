@@ -2,14 +2,7 @@ import React, { useEffect, useState } from "react";
 import auth from "../../firebase";
 import { SignedOutStack, SignedInStack } from "./navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { db } from "../../firebase";
-import {
-  getDocs,
-  collectionGroup,
-  doc,
-  onSnapshot,
-  collection,
-} from "firebase/firestore";
+
 const AuthNavigation = () => {
   const [currentUser, setCurrentUser] = useState(null);
 

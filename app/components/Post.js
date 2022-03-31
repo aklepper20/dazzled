@@ -10,14 +10,15 @@ import React, { useState } from "react";
 
 const Post = ({ post }) => {
   const [viewComments, setViewComments] = useState(false);
+
   return (
     <View style={styles.container}>
       <PostHeader post={post} />
       <PostImage post={post} />
       <PostFooter post={post} />
       <Caption post={post} />
-      <CommentsSection post={post} />
-      <Comments post={post} />
+      {/* <CommentsSection post={post} />
+      <Comments post={post} /> */}
     </View>
   );
 };
@@ -26,8 +27,8 @@ const PostHeader = ({ post }) => (
   <TouchableWithoutFeedback>
     <View style={styles.headerContainer}>
       <View style={styles.headerInfo}>
-        <Image style={styles.headerImg} source={{ uri: post.image }} />
-        <Text style={styles.headerText}>{post.username}</Text>
+        {/* <Image style={styles.headerImg} source={{ uri: post?.image }} /> */}
+        <Text style={styles.headerText}>{post.user}</Text>
       </View>
     </View>
   </TouchableWithoutFeedback>
@@ -35,7 +36,7 @@ const PostHeader = ({ post }) => (
 
 const PostImage = ({ post }) => (
   <View style={styles.postImageContainer}>
-    <Image style={styles.postImage} source={{ uri: post.image }} />
+    <Image style={styles.postImage} source={{ uri: post.imageUrl }} />
   </View>
 );
 
@@ -54,34 +55,34 @@ const PostFooter = ({ post }) => (
 
 const Caption = ({ post }) => (
   <Text style={styles.captionText}>
-    <Text style={styles.captionUsername}>{post.username}</Text>{" "}
+    <Text style={styles.captionUsername}>{post.user}</Text>{" "}
     <Text>{post.caption}</Text>
   </Text>
 );
 
 const CommentsSection = ({ post }) => (
   <View>
-    {!!post.comments.length && (
+    {/* {!!post.comments.length && (
       <TouchableOpacity>
         <Text style={styles.comment}>
           View {post.comments.length > 1 ? " all " : ""} {post.comments.length}{" "}
           {post.comments.length > 1 ? "comments" : "comment"}
         </Text>
       </TouchableOpacity>
-    )}
+    )} */}
   </View>
 );
 
 const Comments = ({ post }) => (
   <>
-    {post.comments.map((comment, index) => (
+    {/* {post.comments.map((comment, index) => (
       <Text style={styles.commentContainer} key={index}>
         <Text style={styles.footerText}>
           <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
           {comment.comment}
         </Text>
       </Text>
-    ))}
+    ))} */}
   </>
 );
 

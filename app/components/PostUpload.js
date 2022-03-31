@@ -37,16 +37,16 @@ const PostUpload = ({ navigation, usersPosts }) => {
     getUsername();
   }, []);
 
-  onSnapshot(doc(db, "users", `${auth.currentUser.email}`), (snapshot) => {
-    let posts = snapshot
-      .data()
-      .postsArr.map((post, id) => ({ ...post, id: id }));
-  });
+  //   onSnapshot(doc(db, "users", `${auth.currentUser.email}`), (snapshot) => {
+  //     let posts = snapshot
+  //       .data()
+  //       .postsArr.map((post, id) => ({ ...post, id: id }));
+  //   });
 
   const addUserPost = async (caption, imageUrl) => {
     const docRef = doc(db, "users", loggedInUserId);
-
-    const newPost = {
+    const colRef = collection(docRef, "posts");
+    addDoc(colRef, {
       imageUrl: imageUrl,
       caption: caption,
       user: loggedInUsername,
@@ -54,15 +54,8 @@ const PostUpload = ({ navigation, usersPosts }) => {
       likes: 0,
       likes_by_users: [],
       comments: [],
-    };
-
-    let postsRef = usersPosts;
-    usersPosts.push(newPost);
-
-    const postPayload = {
-      postsArr: postsRef,
-    };
-    setDoc(docRef, postPayload).then(() => navigation.goBack());
+    }).then(() => navigation.goBack());
+    setImageUri(null);
   };
 
   return (

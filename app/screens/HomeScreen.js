@@ -15,54 +15,25 @@ import {
 } from "firebase/firestore";
 
 const HomeScreen = ({ navigation }) => {
-  useEffect(() => {
-    //get ALL the users posts
-    //     const allPosts = onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
-    //       snapshot.docs.map((doc) => doc.data());
-    //     });
-    //     return allPosts;
-    // getUserPost();
-  }, []);
+  const [allPosts, setAllPosts] = useState([]);
 
-  const posts = [
-    {
-      name: "aly",
-      image:
-        "https://images.pexels.com/photos/87611/sun-fireball-solar-flare-sunlight-87611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      username: "bait",
-      likes: 94,
-      caption: "wow love code",
-      comments: [
-        {
-          user: "sam",
-          comment: "wow this is cool",
-        },
-        {
-          user: "ron",
-          comment: "sickkkkkk",
-        },
-      ],
-    },
-    {
-      name: "aly",
-      image:
-        "https://images.pexels.com/photos/87611/sun-fireball-solar-flare-sunlight-87611.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      username: "bait",
-      likes: 64,
-      caption: "yes go",
-      comments: [
-        {
-          user: "bob",
-          comment: "its working",
-        },
-      ],
-    },
-  ];
+  // const getUserPosts = async () => {
+  // onSnapshot(collectionGroup(db, "users"), (snapshot) => {
+  //     setAllPosts(snapshot.docs.map((doc) => doc.data()));
+  //   });
+  // };
+  useEffect(() => {
+    onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
+      setAllPosts(snapshot.docs.map((doc) => doc.data()));
+    });
+  }, []);
+  console.log(allPosts);
+  // console.log(auth.currentUser.email);
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
       <ScrollView>
-        {posts.map((post, index) => (
+        {allPosts.map((post, index) => (
           <Post post={post} key={index} />
         ))}
       </ScrollView>

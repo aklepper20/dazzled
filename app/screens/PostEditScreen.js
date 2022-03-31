@@ -8,18 +8,18 @@ import { onSnapshot, doc } from "firebase/firestore";
 const PostEditScreen = ({ navigation }) => {
   const [usersPosts, setUsersPosts] = useState([]);
 
-  const getUserPosts = async () => {
-    onSnapshot(doc(db, "users", `${auth.currentUser.email}`), (snapshot) => {
-      let posts = snapshot
-        .data()
-        .postsArr.map((post, id) => ({ ...post, id: id }));
-      return setUsersPosts(posts);
-    });
-  };
+  // const getUserPosts = async () => {
+  //   onSnapshot(doc(db, "users", `${auth.currentUser.email}`), (snapshot) => {
+  //     let posts = snapshot
+  //       .data()
+  //       .postsArr.map((post, id) => ({ ...post, id: id }));
+  //     return setUsersPosts(posts);
+  //   });
+  // };
 
-  useEffect(() => {
-    getUserPosts();
-  }, []);
+  // useEffect(() => {
+  //   getUserPosts();
+  // }, []);
   return (
     <SafeAreaView style={styles.container}>
       <AddNewPost navigation={navigation} usersPosts={usersPosts} />

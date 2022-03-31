@@ -26,11 +26,11 @@ const SignUpForm = ({ navigation }) => {
       .min(6, "Password must have at least 8 characters"),
   });
 
-  const addPostsArrFirebase = async () => {
-    await setDoc(doc(db, "users", auth.currentUser.email), {
-      postsArr: [],
-    });
-  };
+  // const addPostsArrFirebase = async () => {
+  //   await setDoc(doc(db, "users", auth.currentUser.email), {
+  //     postsArr: [],
+  //   });
+  // };
 
   const onSignUp = async (email, password) => {
     try {
@@ -46,7 +46,7 @@ const SignUpForm = ({ navigation }) => {
     } catch (err) {
       Alert.alert(`${email},`, err.message);
     }
-    addPostsArrFirebase();
+    // addPostsArrFirebase();
   };
 
   return (

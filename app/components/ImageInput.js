@@ -13,7 +13,14 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { db } from "../../firebase";
 import auth from "../../firebase";
-import { doc, setDoc, add, collection, addDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  add,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 function ImageInput({
   imageUri,
   setImageUri,
@@ -53,7 +60,6 @@ function ImageInput({
   };
 
   const addUserPost = async () => {
-    // const docRef = doc(db, "users", loggedInUserId);
     const docRef = doc(db, "users", loggedInUserId);
     const colRef = collection(docRef, "posts");
     addDoc(colRef, {
@@ -64,28 +70,9 @@ function ImageInput({
       likes: 0,
       likes_by_users: [],
       comments: [],
+      timestamp: serverTimestamp(),
     }).then(() => navigation.goBack());
     setImageUri(null);
-
-    // const newPost = {
-    //   imageUrl: imageUri,
-    //   caption: cameraRollCaption,
-    //   user: loggedInUsername,
-    //   owner_uid: auth.currentUser.uid,
-    //   likes: 0,
-    //   likes_by_users: [],
-    //   comments: [],
-    // };
-
-    // let postsRef = usersPosts;
-    // usersPosts.push(newPost);
-
-    // const postPayload = {
-    //   postsArr: postsRef,
-    // };
-
-    // setDoc(docRef, newPost).then(() => navigation.goBack());
-    // setImageUri(null);
   };
 
   return (

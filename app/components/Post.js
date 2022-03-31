@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState } from "react";
+import { Timestamp } from "firebase/firestore";
 
 const Post = ({ post }) => {
   const [viewComments, setViewComments] = useState(false);
@@ -17,8 +18,9 @@ const Post = ({ post }) => {
       <PostImage post={post} />
       <PostFooter post={post} />
       <Caption post={post} />
-      {/* <CommentsSection post={post} />
-      <Comments post={post} /> */}
+      <CommentsSection post={post} />
+      <Comments post={post} />
+      <Date post={post} />
     </View>
   );
 };
@@ -62,28 +64,32 @@ const Caption = ({ post }) => (
 
 const CommentsSection = ({ post }) => (
   <View>
-    {/* {!!post.comments.length && (
+    {!!post.comments.length && (
       <TouchableOpacity>
         <Text style={styles.comment}>
           View {post.comments.length > 1 ? " all " : ""} {post.comments.length}{" "}
           {post.comments.length > 1 ? "comments" : "comment"}
         </Text>
       </TouchableOpacity>
-    )} */}
+    )}
   </View>
 );
 
 const Comments = ({ post }) => (
   <>
-    {/* {post.comments.map((comment, index) => (
+    {post.comments.map((comment, index) => (
       <Text style={styles.commentContainer} key={index}>
         <Text style={styles.footerText}>
           <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
           {comment.comment}
         </Text>
       </Text>
-    ))} */}
+    ))}
   </>
+);
+
+const Date = ({ post }) => (
+  <Text>{/* {new Date(post.timestamp.toDate())} */}</Text>
 );
 
 const styles = StyleSheet.create({

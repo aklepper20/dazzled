@@ -12,6 +12,8 @@ import {
   doc,
   onSnapshot,
   collection,
+  orderBy,
+  query,
 } from "firebase/firestore";
 
 const HomeScreen = ({ navigation }) => {
@@ -23,9 +25,18 @@ const HomeScreen = ({ navigation }) => {
   //   });
   // };
   useEffect(() => {
-    onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
+    const docRef = query(
+      collectionGroup(db, "posts"),
+      orderBy("timestamp", "desc")
+    );
+    onSnapshot(docRef, (snapshot) => {
       setAllPosts(snapshot.docs.map((doc) => doc.data()));
     });
+    // onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
+    //   setAllPosts(
+    //     snapshot.docs.map((doc) => doc.data())
+    //   );
+    // });
   }, []);
   console.log(allPosts);
   // console.log(auth.currentUser.email);

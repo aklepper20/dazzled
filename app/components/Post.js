@@ -89,7 +89,9 @@ const Comments = ({ post }) => (
 );
 
 const Date = ({ post }) => (
-  <Text>{/* {new Date(post.timestamp.toDate())} */}</Text>
+  <Text>
+    <Text style={styles.date}>{post.timestamp.toDate().toLocaleString()}</Text>
+  </Text>
 );
 
 const styles = StyleSheet.create({
@@ -164,6 +166,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginHorizontal: 15,
     marginTop: 5,
+  },
+  date: {
+    color: "grey",
+    fontWeight: "300",
+    fontSize: 12,
   },
 });
 

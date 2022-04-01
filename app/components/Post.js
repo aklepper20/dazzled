@@ -24,21 +24,20 @@ const Post = ({ post }) => {
   const handleLike = async ({ post }) => {
     const currentStatus = !post.likes_by_users.includes(auth.currentUser.email);
 
-    const docRef = doc(db, "users", post.owner_email);
-    const colRef = collection(docRef, "posts");
-    const ref = doc(colRef, post.id);
-
-    await updateDoc(ref, {
-      likes_by_users: currentStatus
-        ? arrayUnion(auth.currentUser.email)
-        : arrayRemove(auth.currentUser.email),
-    })
-      .then(() => {
+    try {
+      const docRef = doc(db, "users", post.owner_email);
+      const colRef = collection(docRef, "posts");
+      const ref = doc(colRef, post.id);
+      await updateDoc(ref, {
+        likes_by_users: currentStatus
+          ? arrayUnion(auth.currentUser.email)
+          : arrayRemove(auth.currentUser.email),
+      }).then(() => {
         console.log("Doc added successfully");
-      })
-      .catch((err) => {
-        console.error("Error updating: ", err);
       });
+    } catch (err) {
+      console.error("Error updating: ", err);
+    }
   };
 
   return (

@@ -77,15 +77,13 @@ const PostFooter = ({ post, handleLike }) => (
     <TouchableOpacity onPress={() => handleLike({ post })}>
       <Image
         style={styles.footerIcon}
-        source={require("../assets/unfilledHeart.png")}
-        onPress={() => setViewComments(!viewComments)}
+        source={
+          post.likes_by_users.includes(auth.currentUser.email)
+            ? require("../assets/filledHeart.png")
+            : require("../assets/unfilledHeart.png")
+        }
       />
     </TouchableOpacity>
-    <Image
-      style={styles.footerIcon}
-      source={require("../assets/filledHeart.png")}
-      onPress={() => setViewComments(!viewComments)}
-    />
   </View>
 );
 
@@ -172,7 +170,6 @@ const styles = StyleSheet.create({
   footerIcon: {
     width: 33,
     height: 33,
-    backgroundColor: "white",
     borderRadius: 10,
   },
   footerContainer: {

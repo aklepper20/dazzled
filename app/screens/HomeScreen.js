@@ -30,7 +30,7 @@ const HomeScreen = ({ navigation }) => {
       orderBy("timestamp", "desc")
     );
     onSnapshot(docRef, (snapshot) => {
-      setAllPosts(snapshot.docs.map((doc) => doc.data()));
+      setAllPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
     // onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
     //   setAllPosts(
@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
     //   );
     // });
   }, []);
-  console.log(allPosts);
+
   // console.log(auth.currentUser.email);
   return (
     <SafeAreaView style={styles.container}>

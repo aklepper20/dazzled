@@ -67,7 +67,7 @@ function ImageInput({
       caption: cameraRollCaption,
       user: loggedInUsername,
       owner_uid: auth.currentUser.uid,
-      likes: 0,
+      owner_email: auth.currentUser.email,
       likes_by_users: [],
       comments: [],
       timestamp: serverTimestamp(),

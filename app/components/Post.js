@@ -7,16 +7,45 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState } from "react";
-import { Timestamp } from "firebase/firestore";
+import auth from "../../firebase";
+import { db } from "../../firebase";
+import {
+  arrayRemove,
+  arrayUnion,
+  updateDoc,
+  doc,
+  collection,
+  setDoc,
+} from "firebase/firestore";
 
 const Post = ({ post }) => {
   const [viewComments, setViewComments] = useState(false);
+
+  const handleLike = async ({ post }) => {
+    const currentStatus = !post.likes_by_users.includes(auth.currentUser.email);
+
+    const docRef = doc(db, "users", post.owner_email);
+    const colRef = collection(docRef, "posts");
+    const ref = doc(colRef, post.id);
+
+    await updateDoc(ref, {
+      likes_by_users: currentStatus
+        ? arrayUnion(auth.currentUser.email)
+        : arrayRemove(auth.currentUser.email),
+    })
+      .then(() => {
+        console.log("Doc added successfully");
+      })
+      .catch((err) => {
+        console.error("Error updating: ", err);
+      });
+  };
 
   return (
     <View style={styles.container}>
       <PostHeader post={post} />
       <PostImage post={post} />
-      <PostFooter post={post} />
+      <PostFooter post={post} handleLike={handleLike} />
       <Caption post={post} />
       <CommentsSection post={post} />
       <Comments post={post} />
@@ -42,16 +71,21 @@ const PostImage = ({ post }) => (
   </View>
 );
 
-const PostFooter = ({ post }) => (
+const PostFooter = ({ post, handleLike }) => (
   <View style={styles.footerContainer}>
-    <Text style={styles.footerText}>{post.likes} likes</Text>
-    <TouchableOpacity>
+    <Text style={styles.footerText}>{post.likes_by_users.length} likes</Text>
+    <TouchableOpacity onPress={() => handleLike({ post })}>
       <Image
         style={styles.footerIcon}
         source={require("../assets/unfilledHeart.png")}
         onPress={() => setViewComments(!viewComments)}
       />
     </TouchableOpacity>
+    <Image
+      style={styles.footerIcon}
+      source={require("../assets/filledHeart.png")}
+      onPress={() => setViewComments(!viewComments)}
+    />
   </View>
 );
 
@@ -90,7 +124,9 @@ const Comments = ({ post }) => (
 
 const Date = ({ post }) => (
   <Text>
-    <Text style={styles.date}>{post.timestamp.toDate().toLocaleString()}</Text>
+    <Text style={styles.date}>
+      {post?.timestamp?.toDate().toLocaleString()}
+    </Text>
   </Text>
 );
 

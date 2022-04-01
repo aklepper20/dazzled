@@ -7,7 +7,13 @@ import validUrl from "valid-url";
 
 import { db } from "../../firebase";
 import auth from "../../firebase";
-import { onSnapshot, doc, setDoc, Timestamp } from "firebase/firestore";
+import {
+  onSnapshot,
+  doc,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import ImageInput from "./ImageInput";
 
 const PLACEHOLDER_IMG =
@@ -52,7 +58,7 @@ const PostUpload = ({ navigation, usersPosts }) => {
       caption: caption,
       user: loggedInUsername,
       owner_uid: auth.currentUser.uid,
-      likes: 0,
+      owner_email: auth.currentUser.email,
       likes_by_users: [],
       comments: [],
       timestamp: Timestamp.fromMillis(Date.parse("2019-01-01T13:45:23.101Z")),

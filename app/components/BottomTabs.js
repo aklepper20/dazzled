@@ -32,6 +32,9 @@ const BottomTabs = ({ icons, navigation }) => {
     if (icon.name === "Add Post") {
       navigation.navigate("PostEditScreen");
     }
+    if (icon.name === "Profile") {
+      navigation.navigate("ProfileScreen");
+    }
   };
   const Icon = ({ icon }) => (
     <TouchableOpacity onPress={() => handlePress(icon)}>

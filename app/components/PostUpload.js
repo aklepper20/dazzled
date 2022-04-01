@@ -7,13 +7,7 @@ import validUrl from "valid-url";
 
 import { db } from "../../firebase";
 import auth from "../../firebase";
-import {
-  onSnapshot,
-  doc,
-  setDoc,
-  Timestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, Timestamp } from "firebase/firestore";
 import ImageInput from "./ImageInput";
 
 const PLACEHOLDER_IMG =

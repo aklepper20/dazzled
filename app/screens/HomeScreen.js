@@ -7,11 +7,8 @@ import { bottomTabIcons } from "../components/BottomTabs";
 import { db } from "../../firebase";
 import auth from "../../firebase";
 import {
-  getDocs,
   collectionGroup,
-  doc,
   onSnapshot,
-  collection,
   orderBy,
   query,
 } from "firebase/firestore";

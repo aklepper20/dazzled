@@ -1,12 +1,16 @@
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, View } from "react-native";
 import React from "react";
 import Profile from "../components/profile/Profile";
+import ProfileHeader from "../components/profile/ProfileHeader";
 
 const ProfileScreen = ({ navigation, usersPosts }) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Profile navigation={navigation} usersPosts={usersPosts} />
-    </SafeAreaView>
+    <>
+      <View style={styles.container}>
+        <ProfileHeader navigation={navigation} />
+        <Profile />
+      </View>
+    </>
   );
 };
 

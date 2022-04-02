@@ -37,12 +37,6 @@ const PostUpload = ({ navigation, usersPosts }) => {
     getUsername();
   }, []);
 
-  //   onSnapshot(doc(db, "users", `${auth.currentUser.email}`), (snapshot) => {
-  //     let posts = snapshot
-  //       .data()
-  //       .postsArr.map((post, id) => ({ ...post, id: id }));
-  //   });
-
   const addUserPost = async (caption, imageUrl) => {
     const docRef = doc(db, "users", loggedInUserId);
     const colRef = collection(docRef, "posts");

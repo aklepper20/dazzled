@@ -1,13 +1,14 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import ProfileHeader from "./ProfileHeader";
+import UserInfo from "./UserInfo";
+import Post from "./Post";
 
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
 
 import { doc, onSnapshot, collection } from "firebase/firestore";
 
-const Profile = () => {
+const Profile = ({ navigation }) => {
   const [userPosts, setUserPosts] = useState([]);
 
   const getPosts = () => {
@@ -70,13 +71,43 @@ const Profile = () => {
   ];
 
   return (
-    <View>
-      <ProfileHeader />
-      <Text>HI</Text>
+    <View style={styles.container}>
+      <UserInfo posts={POSTS} />
+
+      <FlatList
+        numColumns={3}
+        style={styles.postContainer}
+        data={POSTS}
+        keyExtractor={(post, i) => i.toString()}
+        renderItem={({ item }) => (
+          <Post
+            caption={item.caption}
+            image={item.imageUrl}
+            likes={item.likes_by_users}
+            timestamp={item.timestamp}
+            user={item.user}
+            onPress={() => console.log("hi")}
+          />
+        )}
+      >
+        ))
+      </FlatList>
     </View>
   );
 };
 
 export default Profile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 3,
+    backgroundColor: "#041f37",
+    zIndex: 10,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+  },
+  postContainer: {
+    marginTop: 130,
+    marginHorizontal: 18,
+  },
+});

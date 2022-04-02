@@ -1,14 +1,49 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from "react-native";
 import React from "react";
 
-const ProfileHeader = () => {
+const ProfileHeader = ({ navigation }) => {
   return (
-    <View>
-      <Text>LETS GOOOOO</Text>
-    </View>
+    <ImageBackground
+      style={styles.background}
+      source={require("../../assets/profileBackground.jpg")}
+    >
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Image
+          style={styles.imageBack}
+          source={{
+            uri: "https://img.icons8.com/ios-glyphs/90/ffffff/back.png",
+          }}
+        />
+      </TouchableOpacity>
+    </ImageBackground>
   );
 };
 
 export default ProfileHeader;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {},
+  background: {
+    flex: 1,
+    // justifyContent: "center",
+    // alignItems: "center",
+    zIndex: -10,
+    // width: "100%",
+
+    height: 280,
+  },
+  imageBack: {
+    width: 30,
+    height: 30,
+    top: 50,
+    left: 20,
+    position: "absolute",
+  },
+});

@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 
-const Post = ({ image, user, caption }) => {
+const Post = ({ image, user, caption, timestamp, likes }) => {
   return (
-    <ScrollView contextSize={(100, 100)} style={styles.container}></ScrollView>
+    <TouchableOpacity style={styles.container}>
+      <Image style={styles.image} source={{ uri: image }} />
+    </TouchableOpacity>
   );
 };
 
@@ -15,5 +17,9 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: "blue",
     margin: 8,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
   },
 });

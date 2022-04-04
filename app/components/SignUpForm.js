@@ -42,11 +42,12 @@ const SignUpForm = ({ navigation }) => {
       await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,
         email: authUser.user.email,
+        avatar:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
       });
     } catch (err) {
       Alert.alert(`${email},`, err.message);
     }
-    // addPostsArrFirebase();
   };
 
   return (

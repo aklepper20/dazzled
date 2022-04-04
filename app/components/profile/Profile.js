@@ -26,7 +26,6 @@ const Profile = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <UserInfo posts={userPosts} />
-
       <FlatList
         numColumns={3}
         style={styles.postContainer}

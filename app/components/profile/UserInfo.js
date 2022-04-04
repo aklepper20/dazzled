@@ -1,16 +1,63 @@
-import { StyleSheet, Text, View, Image } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
+
 import auth from "../../../firebase";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { db } from "../../../firebase";
 
 const UserInfo = () => {
+  const [defaultAvatar, setDefaultAvatar] = useState();
+  //   const [userAvatar, setUserAvatar] = useState();
+
+  const getUserAvatar = () => {
+    onSnapshot(doc(db, "users", auth.currentUser.email), (snapshot) => {
+      setDefaultAvatar(snapshot.data().avatar);
+    });
+  };
+
+  useEffect(() => {
+    getUserAvatar();
+  }, []);
+
+  const pickAvatar = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.5,
+      });
+      setUserAvatar(result.uri);
+    } catch (error) {
+      console.log("Error reading an image", error);
+    }
+    updateAvatar();
+  };
+
+  const updateAvatar = async () => {
+    const avatarRef = doc(db, "users", auth.currentUser.email);
+    await updateDoc(avatarRef, {
+      avatar: userAvatar,
+    });
+    getUserAvatar();
+  };
+
   return (
     <View style={styles.container}>
       <Image
         style={styles.userImage}
         source={{
-          uri: "https://i.pinimg.com/originals/2f/fa/e6/2ffae67cccf7d31c352649d8a3d0810c.jpg",
+          uri: defaultAvatar,
         }}
       />
+      <TouchableOpacity onPress={pickAvatar}>
+        <MaterialCommunityIcons
+          style={styles.plusIcon}
+          name="plus-circle"
+          color="darkgrey"
+          size={32}
+        />
+      </TouchableOpacity>
       <Text style={styles.userText}>{auth.currentUser.email}</Text>
       <Text style={styles.userLocation}>California, USA</Text>
     </View>
@@ -45,5 +92,10 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     fontSize: 13,
     color: "white",
+  },
+  plusIcon: {
+    position: "absolute",
+    top: -16,
+    left: 32,
   },
 });

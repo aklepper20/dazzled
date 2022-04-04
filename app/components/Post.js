@@ -18,7 +18,6 @@ import {
   collection,
   setDoc,
 } from "firebase/firestore";
-import { async } from "@firebase/util";
 
 const Post = ({ post }) => {
   const [viewComments, setViewComments] = useState(false);
@@ -48,8 +47,12 @@ const Post = ({ post }) => {
       <PostImage post={post} />
       <PostFooter post={post} handleLike={handleLike} />
       <Caption post={post} />
-      <CommentsSection post={post} />
-      <Comments post={post} />
+      <CommentsSection
+        post={post}
+        viewComments={viewComments}
+        setViewComments={setViewComments}
+      />
+      <Comments post={post} viewComments={viewComments} />
       <Date post={post} />
     </View>
   );
@@ -95,20 +98,23 @@ const Caption = ({ post }) => (
   </Text>
 );
 
-const CommentsSection = ({ post }) => (
-  <View>
-    {!!post.comments.length && (
-      <TouchableOpacity>
-        <Text style={styles.comment}>
-          View {post.comments.length > 1 ? " all " : ""} {post.comments.length}{" "}
-          {post.comments.length > 1 ? "comments" : "comment"}
-        </Text>
-      </TouchableOpacity>
-    )}
-  </View>
-);
+const CommentsSection = ({ post, viewComments, setViewComments }) => {
+  return (
+    <View>
+      {!!post.comments.length && (
+        <TouchableOpacity onPress={() => setViewComments(!viewComments)}>
+          <Text style={styles.comment}>
+            View {post.comments.length > 1 ? " all " : ""}{" "}
+            {post.comments.length}{" "}
+            {post.comments.length > 1 ? "comments" : "comment"}
+          </Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+};
 
-const Comments = ({ post }) => {
+const Comments = ({ post, viewComments }) => {
   const [comment, setComment] = useState("");
 
   const postComment = async () => {
@@ -132,14 +138,15 @@ const Comments = ({ post }) => {
   };
   return (
     <>
-      {post.comments.map((comment, index) => (
-        <Text style={styles.commentContainer} key={index}>
-          <Text style={styles.footerText}>
-            <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
-            {comment.comment}
+      {viewComments &&
+        post.comments.map((comment, index) => (
+          <Text style={styles.commentContainer} key={index}>
+            <Text style={styles.footerText}>
+              <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
+              {comment.comment}
+            </Text>
           </Text>
-        </Text>
-      ))}
+        ))}
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Add a comment..."

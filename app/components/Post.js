@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import auth from "../../firebase";
 import { db } from "../../firebase";
 import {
@@ -16,11 +16,19 @@ import {
   updateDoc,
   doc,
   collection,
-  setDoc,
 } from "firebase/firestore";
 
 const Post = ({ post }) => {
   const [viewComments, setViewComments] = useState(false);
+  const [commentStatus, setCommentStatus] = useState("View");
+
+  useEffect(() => {
+    if (viewComments) {
+      setCommentStatus("Close");
+    } else {
+      setCommentStatus("View");
+    }
+  }, [viewComments]);
 
   const handleLike = async ({ post }) => {
     const currentStatus = !post.likes_by_users.includes(auth.currentUser.email);
@@ -51,6 +59,8 @@ const Post = ({ post }) => {
         post={post}
         viewComments={viewComments}
         setViewComments={setViewComments}
+        commentStatus={commentStatus}
+        setCommentStatus={setCommentStatus}
       />
       <Comments post={post} viewComments={viewComments} />
       <Date post={post} />
@@ -98,13 +108,19 @@ const Caption = ({ post }) => (
   </Text>
 );
 
-const CommentsSection = ({ post, viewComments, setViewComments }) => {
+const CommentsSection = ({
+  post,
+  viewComments,
+  setViewComments,
+  commentStatus,
+  setCommentStatus,
+}) => {
   return (
     <View>
       {!!post.comments.length && (
         <TouchableOpacity onPress={() => setViewComments(!viewComments)}>
           <Text style={styles.comment}>
-            View {post.comments.length > 1 ? " all " : ""}{" "}
+            {commentStatus} {post.comments.length > 1 ? " all " : ""}{" "}
             {post.comments.length}{" "}
             {post.comments.length > 1 ? "comments" : "comment"}
           </Text>

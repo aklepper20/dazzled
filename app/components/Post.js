@@ -160,55 +160,12 @@ const Comments = ({ post, viewComments }) => {
     setComment("");
   };
 
-  const removeComment = async (index) => {
-    console.log("we clicked", index);
-    try {
-      const docRef = doc(db, "users", post.owner_email);
-      const colRef = collection(docRef, "posts");
-      const ref = doc(colRef, post.id);
-
-      await updateDoc(ref, {
-        comments: arrayRemove({
-          user: auth.currentUser.email,
-          comment: comment,
-        }),
-      }).then(() => {
-        console.log("Doc added successfully");
-      });
-    } catch (err) {
-      console.error("Error updating: ", err);
-    }
-  };
-
-  const rightSwipe = () => {
-    return (
-      <TouchableOpacity
-        style={styles.deleteBox}
-        onPress={() => removeComment(index)}
-      >
-        <MaterialCommunityIcons
-          style={styles.plusIcon}
-          name="delete"
-          color="red"
-          size={20}
-        />
-      </TouchableOpacity>
-    );
-  };
-
   return (
     <>
       {viewComments &&
-        post.comments.map((comment, index) => {
+        post.comments.map((comment) => {
           return (
-            <Swipeable renderRightActions={rightSwipe}>
-              <Text style={styles.commentContainer} key={index}>
-                <Text style={styles.footerText}>
-                  <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
-                  {comment.comment}
-                </Text>
-              </Text>
-            </Swipeable>
+            <SingleComment comment={comment} id={comment.id} post={post} />
           );
         })}
       <View style={styles.inputContainer}>
@@ -226,6 +183,55 @@ const Comments = ({ post, viewComments }) => {
         </View>
       </View>
     </>
+  );
+};
+
+const SingleComment = ({ comment, id, post }) => {
+  const removeComment = async (id) => {
+    try {
+      const docRef = doc(db, "users", post.owner_email);
+      const colRef = collection(docRef, "posts");
+      const ref = doc(colRef, post.id);
+
+      await updateDoc(ref, {
+        comments: arrayRemove({
+          user: auth.currentUser.email,
+          comment: comment,
+          id: id,
+        }),
+      }).then(() => {
+        console.log("Doc added successfully");
+      });
+    } catch (err) {
+      console.error("Error updating: ", err);
+    }
+  };
+
+  const rightSwipe = (id) => {
+    return (
+      <TouchableOpacity
+        style={styles.deleteBox}
+        onPress={() => removeComment(id)}
+      >
+        <MaterialCommunityIcons
+          style={styles.plusIcon}
+          name="delete"
+          color="red"
+          size={20}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  return (
+    <Swipeable renderRightActions={() => rightSwipe(id)}>
+      <Text style={styles.commentContainer} key={comment.id}>
+        <Text style={styles.footerText}>
+          <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
+          {comment.comment}
+        </Text>
+      </Text>
+    </Swipeable>
   );
 };
 

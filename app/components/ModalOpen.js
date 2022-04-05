@@ -1,13 +1,28 @@
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from "react-native";
-import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  ScrollView,
+} from "react-native";
+import React from "react";
 
 const ModalOpen = ({ post, visible, setVisible }) => {
   return (
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles.modalBackground}>
-        <View style={[styles.modalContainer]}>
+        <View style={styles.modalContainer}>
           <TouchableOpacity onPress={() => setVisible(false)}>
             <Text style={styles.closeButton}>X</Text>
+            <Text style={styles.title}>Likes</Text>
+            <ScrollView style={styles.likeFeed}>
+              {post.likes_by_users.map((like, index) => (
+                <Text key={index} style={styles.userLiked}>
+                  {like}
+                </Text>
+              ))}
+            </ScrollView>
           </TouchableOpacity>
         </View>
       </View>
@@ -25,8 +40,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    width: "80%",
-    height: 200,
+    width: "60%",
+    height: 150,
     backgroundColor: "white",
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -37,5 +52,15 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 20,
     fontWeight: "500",
+  },
+  userLiked: {
+    paddingVertical: 3,
+    fontWeight: "400",
+  },
+  title: {
+    textAlign: "center",
+    paddingBottom: 5,
+    fontSize: 18,
+    fontWeight: "600",
   },
 });

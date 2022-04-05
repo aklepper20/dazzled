@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   TextInput,
+  Dimensions,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import auth from "../../firebase";
@@ -17,6 +18,11 @@ import {
   doc,
   collection,
 } from "firebase/firestore";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { v4 as uuidv4 } from "uuid";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const Post = ({ post }) => {
   const [viewComments, setViewComments] = useState(false);
@@ -143,6 +149,7 @@ const Comments = ({ post, viewComments }) => {
         comments: arrayUnion({
           user: auth.currentUser.email,
           comment: comment,
+          id: uuidv4(),
         }),
       }).then(() => {
         console.log("Doc added successfully");
@@ -152,17 +159,58 @@ const Comments = ({ post, viewComments }) => {
     }
     setComment("");
   };
+
+  const removeComment = async (index) => {
+    console.log("we clicked", index);
+    try {
+      const docRef = doc(db, "users", post.owner_email);
+      const colRef = collection(docRef, "posts");
+      const ref = doc(colRef, post.id);
+
+      await updateDoc(ref, {
+        comments: arrayRemove({
+          user: auth.currentUser.email,
+          comment: comment,
+        }),
+      }).then(() => {
+        console.log("Doc added successfully");
+      });
+    } catch (err) {
+      console.error("Error updating: ", err);
+    }
+  };
+
+  const rightSwipe = () => {
+    return (
+      <TouchableOpacity
+        style={styles.deleteBox}
+        onPress={() => removeComment(index)}
+      >
+        <MaterialCommunityIcons
+          style={styles.plusIcon}
+          name="delete"
+          color="red"
+          size={20}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
       {viewComments &&
-        post.comments.map((comment, index) => (
-          <Text style={styles.commentContainer} key={index}>
-            <Text style={styles.footerText}>
-              <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
-              {comment.comment}
-            </Text>
-          </Text>
-        ))}
+        post.comments.map((comment, index) => {
+          return (
+            <Swipeable renderRightActions={rightSwipe}>
+              <Text style={styles.commentContainer} key={index}>
+                <Text style={styles.footerText}>
+                  <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
+                  {comment.comment}
+                </Text>
+              </Text>
+            </Swipeable>
+          );
+        })}
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="Add a comment..."
@@ -201,6 +249,13 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
+  deleteBox: {
+    backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 40,
+    paddingHorizontal: 4,
+  },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -266,6 +321,8 @@ const styles = StyleSheet.create({
   },
   commentContainer: {
     flexDirection: "row",
+    height: 15,
+    width: SCREEN_WIDTH,
     marginHorizontal: 15,
     marginTop: 5,
   },

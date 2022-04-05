@@ -2,18 +2,18 @@ import {
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
   TouchableOpacity,
   Image,
-  ImageBackground,
 } from "react-native";
 import React from "react";
 
-const ProfileHeader = ({ navigation }) => {
+const ImageDetailsScreen = ({ route, navigation }) => {
+  const post = route.params;
+  // image, user, caption, timestamp, likes,
+
   return (
-    <ImageBackground
-      style={styles.background}
-      source={require("../../assets/profileBackground.jpg")}
-    >
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image
           style={styles.imageBack}
@@ -22,18 +22,19 @@ const ProfileHeader = ({ navigation }) => {
           }}
         />
       </TouchableOpacity>
-    </ImageBackground>
+
+      <Image style={styles.postImage} source={{ uri: post.image }} />
+      <Text style={styles.text}>{post.caption}</Text>
+    </SafeAreaView>
   );
 };
 
-export default ProfileHeader;
+export default ImageDetailsScreen;
 
 const styles = StyleSheet.create({
-  container: {},
-  background: {
+  container: {
+    backgroundColor: "#041f37",
     flex: 1,
-    zIndex: -10,
-    height: 280,
   },
   imageBack: {
     width: 30,
@@ -41,5 +42,12 @@ const styles = StyleSheet.create({
     top: 50,
     left: 20,
     position: "absolute",
+  },
+  postImage: {
+    height: "100%",
+    resizeMode: "cover",
+  },
+  text: {
+    fontSize: 30,
   },
 });

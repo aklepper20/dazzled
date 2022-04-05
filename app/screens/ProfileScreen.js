@@ -8,7 +8,7 @@ const ProfileScreen = ({ navigation, usersPosts }) => {
     <>
       <View style={styles.container}>
         <ProfileHeader navigation={navigation} />
-        <Profile />
+        <Profile navigation={navigation} />
       </View>
     </>
   );

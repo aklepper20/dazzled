@@ -17,6 +17,7 @@ import {
   updateDoc,
   doc,
   collection,
+  deleteField,
 } from "firebase/firestore";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -119,7 +120,6 @@ const CommentsSection = ({
   viewComments,
   setViewComments,
   commentStatus,
-  setCommentStatus,
 }) => {
   return (
     <View>
@@ -165,7 +165,16 @@ const Comments = ({ post, viewComments }) => {
       {viewComments &&
         post.comments.map((comment) => {
           return (
-            <SingleComment comment={comment} id={comment.id} post={post} />
+            // <SingleComment comment={comment} id={comment.id} post={post} />
+            // <Swipeable renderRightActions={() => rightSwipe(id)}>
+            <Swipeable>
+              <Text style={styles.commentContainer} key={comment.id}>
+                <Text style={styles.footerText}>
+                  <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
+                  {comment.comment}
+                </Text>
+              </Text>
+            </Swipeable>
           );
         })}
       <View style={styles.inputContainer}>
@@ -186,54 +195,53 @@ const Comments = ({ post, viewComments }) => {
   );
 };
 
-const SingleComment = ({ comment, id, post }) => {
-  const removeComment = async (id) => {
-    try {
-      const docRef = doc(db, "users", post.owner_email);
-      const colRef = collection(docRef, "posts");
-      const ref = doc(colRef, post.id);
+// const SingleComment = ({ comment, id, post }) => {
+//   const removeComment = async (id) => {
+//     try {
+//       const docRef = doc(db, "users", post.owner_email);
+//       const colRef = collection(docRef, "posts");
+//       const ref = doc(colRef, post.id);
+//       await updateDoc(ref, {
+//         comments: arrayRemove({
+//           user: auth.currentUser.email,
+//           comment: comment,
+//           id: id,
+//         }),
+//       }).then(() => {
+//         console.log("Doc added successfully");
+//       });
+//     } catch (err) {
+//       console.error("Error updating: ", err);
+//     }
+//   };
 
-      await updateDoc(ref, {
-        comments: arrayRemove({
-          user: auth.currentUser.email,
-          comment: comment,
-          id: id,
-        }),
-      }).then(() => {
-        console.log("Doc added successfully");
-      });
-    } catch (err) {
-      console.error("Error updating: ", err);
-    }
-  };
+// const rightSwipe = (id) => {
+//   return (
+//     <TouchableOpacity
+//       style={styles.deleteBox}
+//       onPress={() => removeComment(id)}
+//     >
+//       <MaterialCommunityIcons
+//         style={styles.plusIcon}
+//         name="delete"
+//         color="red"
+//         size={20}
+//       />
+//     </TouchableOpacity>
+//   );
+// };
 
-  const rightSwipe = (id) => {
-    return (
-      <TouchableOpacity
-        style={styles.deleteBox}
-        onPress={() => removeComment(id)}
-      >
-        <MaterialCommunityIcons
-          style={styles.plusIcon}
-          name="delete"
-          color="red"
-          size={20}
-        />
-      </TouchableOpacity>
-    );
-  };
-
-  return (
-    <Swipeable renderRightActions={() => rightSwipe(id)}>
-      <Text style={styles.commentContainer} key={comment.id}>
-        <Text style={styles.footerText}>
-          <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
-          {comment.comment}
-        </Text>
-      </Text>
-    </Swipeable>
-  );
-};
+//   return (
+//     <Swipeable renderRightActions={() => rightSwipe(id)}>
+//       <Text style={styles.commentContainer} key={comment.id}>
+//         <Text style={styles.footerText}>
+//           <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
+//           {comment.comment}
+//         </Text>
+//       </Text>
+//     </Swipeable>
+//   );
+// };
 
 const Date = ({ post }) => (
   <Text>

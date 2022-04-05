@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, TouchableOpacity, Image } from "react-native";
 import React from "react";
 
-const Post = ({ image, user, caption, timestamp, likes }) => {
+const Post = ({ image, user, caption, timestamp, likes, onPress }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image style={styles.image} source={{ uri: image }} />
     </TouchableOpacity>
   );

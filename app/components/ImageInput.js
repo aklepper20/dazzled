@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
-  Alert,
   Text,
   TextInput,
   Button,
@@ -13,14 +12,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { db } from "../../firebase";
 import auth from "../../firebase";
-import {
-  doc,
-  setDoc,
-  add,
-  collection,
-  addDoc,
-  serverTimestamp,
-} from "firebase/firestore";
+import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 function ImageInput({
   imageUri,
   setImageUri,

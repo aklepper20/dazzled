@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   TextInput,
   Dimensions,
+  Modal,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import auth from "../../firebase";
@@ -17,11 +18,11 @@ import {
   updateDoc,
   doc,
   collection,
-  deleteField,
 } from "firebase/firestore";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { v4 as uuidv4 } from "uuid";
+import ModalOpen from "./ModalOpen";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -92,21 +93,41 @@ const PostImage = ({ post }) => (
   </View>
 );
 
-const PostFooter = ({ post, handleLike }) => (
-  <View style={styles.footerContainer}>
-    <Text style={styles.footerText}>{post.likes_by_users.length} likes</Text>
-    <TouchableOpacity onPress={() => handleLike({ post })}>
-      <Image
-        style={styles.footerIcon}
-        source={
-          post.likes_by_users.includes(auth.currentUser.email)
-            ? require("../assets/filledHeart.png")
-            : require("../assets/unfilledHeart.png")
-        }
-      />
-    </TouchableOpacity>
-  </View>
-);
+const PostFooter = ({ post, handleLike }) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <>
+      {/* {modal ? ( */}
+      <ModalOpen
+        post={post}
+        visible={visible}
+        setVisible={setVisible}
+      ></ModalOpen>
+      {/* ) : ( */}
+      <View style={styles.footerContainer}>
+        <Text style={styles.footerText}>
+          <TouchableOpacity onPress={() => setVisible(true)}>
+            <Text style={styles.footerText}>
+              {post.likes_by_users.length} likes
+            </Text>
+          </TouchableOpacity>
+        </Text>
+        <TouchableOpacity onPress={() => handleLike({ post })}>
+          <Image
+            style={styles.footerIcon}
+            source={
+              post.likes_by_users.includes(auth.currentUser.email)
+                ? require("../assets/filledHeart.png")
+                : require("../assets/unfilledHeart.png")
+            }
+          />
+        </TouchableOpacity>
+      </View>
+      {/* )} */}
+    </>
+  );
+};
 
 const Caption = ({ post }) => (
   <Text style={styles.captionText}>

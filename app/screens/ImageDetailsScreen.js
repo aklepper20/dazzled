@@ -10,8 +10,7 @@ import React from "react";
 
 const ImageDetailsScreen = ({ route, navigation }) => {
   const post = route.params;
-  // image, user, caption, timestamp, likes,
-  console.log(post.likes_by_users, post.user, post.imageUrl);
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -23,7 +22,6 @@ const ImageDetailsScreen = ({ route, navigation }) => {
             }}
           />
         </TouchableOpacity>
-
         <View style={styles.postContainer}>
           <Text style={styles.caption}>{post.caption}</Text>
           <Image style={styles.postImage} source={{ uri: post.imageUrl }} />
@@ -61,7 +59,6 @@ const styles = StyleSheet.create({
     left: 20,
     position: "absolute",
     color: "white",
-    zIndex: 1,
   },
   postImage: {
     height: 400,

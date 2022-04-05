@@ -11,9 +11,9 @@ import React from "react";
 const ImageDetailsScreen = ({ route, navigation }) => {
   const post = route.params;
   // image, user, caption, timestamp, likes,
-
+  console.log(post.likes_by_users, post.user, post.imageUrl);
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image
           style={styles.imageBack}
@@ -22,10 +22,20 @@ const ImageDetailsScreen = ({ route, navigation }) => {
           }}
         />
       </TouchableOpacity>
-
-      <Image style={styles.postImage} source={{ uri: post.image }} />
-      <Text style={styles.text}>{post.caption}</Text>
-    </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.postContainer}>
+          <Text style={styles.caption}>{post.caption}</Text>
+          <Image style={styles.postImage} source={{ uri: post.imageUrl }} />
+          <View style={styles.userContainer}>
+            <Text style={styles.userText}>{post.user}</Text>
+            <Text style={styles.userText}>
+              {" "}
+              {post?.timestamp?.toDate().toLocaleString()}
+            </Text>
+          </View>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -36,6 +46,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#041f37",
     flex: 1,
   },
+  caption: {
+    textAlign: "center",
+    marginBottom: 15,
+    fontSize: 30,
+    fontWeight: "500",
+    color: "white",
+  },
   imageBack: {
     width: 30,
     height: 30,
@@ -44,10 +61,22 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   postImage: {
-    height: "100%",
+    height: 400,
     resizeMode: "cover",
+  },
+  postContainer: {
+    marginTop: 40,
   },
   text: {
     fontSize: 30,
+  },
+  userContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
+    marginVertical: 10,
+  },
+  userText: {
+    color: "lightgrey",
   },
 });

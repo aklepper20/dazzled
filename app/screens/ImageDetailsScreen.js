@@ -14,15 +14,16 @@ const ImageDetailsScreen = ({ route, navigation }) => {
   console.log(post.likes_by_users, post.user, post.imageUrl);
   return (
     <>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Image
-          style={styles.imageBack}
-          source={{
-            uri: "https://img.icons8.com/ios-glyphs/90/ffffff/back.png",
-          }}
-        />
-      </TouchableOpacity>
       <SafeAreaView style={styles.container}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            style={styles.imageBack}
+            source={{
+              uri: "https://img.icons8.com/ios-glyphs/90/ffffff/back.png",
+            }}
+          />
+        </TouchableOpacity>
+
         <View style={styles.postContainer}>
           <Text style={styles.caption}>{post.caption}</Text>
           <Image style={styles.postImage} source={{ uri: post.imageUrl }} />
@@ -59,13 +60,15 @@ const styles = StyleSheet.create({
     top: 50,
     left: 20,
     position: "absolute",
+    color: "white",
+    zIndex: 1,
   },
   postImage: {
     height: 400,
     resizeMode: "cover",
   },
   postContainer: {
-    marginTop: 40,
+    marginTop: 80,
   },
   text: {
     fontSize: 30,

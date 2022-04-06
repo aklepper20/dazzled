@@ -1,7 +1,7 @@
 import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
-import Post from "../components/Post";
+import Post from "../components/post/Post";
 import BottomTabs from "../components/BottomTabs";
 import { bottomTabIcons } from "../components/BottomTabs";
 import { db } from "../../firebase";

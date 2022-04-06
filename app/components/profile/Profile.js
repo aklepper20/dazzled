@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  FlatList,
-  onPress,
-} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
 import UserInfo from "./UserInfo";
 import Post from "./Post";

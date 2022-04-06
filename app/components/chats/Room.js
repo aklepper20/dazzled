@@ -7,9 +7,9 @@ import {
 } from "react-native";
 import React from "react";
 
-const Room = ({ room }) => {
+const Room = ({ room, navigation, onPress }) => {
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: room.image }} />
         <Text style={styles.name}>

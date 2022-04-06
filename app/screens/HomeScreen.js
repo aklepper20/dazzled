@@ -41,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
-      <ChatFeed />
+      <ChatFeed navigation={navigation} />
       <ScrollView>
         {allPosts.map((post, index) => (
           <Post post={post} key={index} />

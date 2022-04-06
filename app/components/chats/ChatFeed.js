@@ -44,13 +44,17 @@ export const USERS = [
   },
 ];
 
-const ChatFeed = () => {
+const ChatFeed = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {USERS.map((room, index) => (
           <View key={index} style={styles.room}>
-            <Room room={room} />
+            <Room
+              room={room}
+              onPress={() => navigation.navigate("ChatRoomScreen", room)}
+              navigation={navigation}
+            />
           </View>
         ))}
       </ScrollView>

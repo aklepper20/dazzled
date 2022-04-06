@@ -15,7 +15,6 @@ import auth from "../../../firebase";
 import Room from "./Room";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { async } from "@firebase/util";
 
 const ChatFeed = ({ navigation }) => {
   const [input, setInput] = useState("");

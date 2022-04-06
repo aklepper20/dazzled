@@ -15,6 +15,8 @@ import {
   addDoc,
   serverTimestamp,
   doc,
+  query,
+  orderBy,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 
@@ -23,7 +25,23 @@ const ChatRoomScreen = ({ route, navigation }) => {
   const [messagesArr, setMessagesArr] = useState([]);
 
   const singleRoom = route.params;
-  console.log(singleRoom);
+
+  //   const docRef = query(
+  //     collectionGroup(db, "posts"),
+  //     orderBy("timestamp", "desc")
+  //   );
+
+  useEffect(() => {
+    const docRef = doc(db, "rooms", singleRoom.id);
+    const colRef = query(
+      collection(docRef, "messages"),
+      orderBy("timestamp", "asc")
+    );
+    // const colRef = collection(docRef, "messages");
+    onSnapshot(colRef, (snapshot) => {
+      setMessagesArr(snapshot.docs.map((doc) => doc.data()));
+    });
+  }, [singleRoom.id]);
 
   const handleSubmit = () => {
     const docRef = doc(db, "rooms", singleRoom.id);
@@ -37,33 +55,6 @@ const ChatRoomScreen = ({ route, navigation }) => {
     setInputValue("");
   };
 
-  //   useEffect(() => {
-  //     if (singleRoom.id) {
-  //         const docRef = doc(db, "rooms", singleRoom.id);
-  //         const colRef = collection(docRef, "messages");
-
-  //         onSnapshot(colRef, (snapshot) => {
-  //             setMessagesArr(snapshot.docs.map(doc => doc.data())
-  //         );
-  //   }, [singleRoom.id])
-
-  const messages = [
-    {
-      chat: "hey whats going on",
-      user: "@sam",
-      timestamp: "4pm",
-    },
-    {
-      chat: "hi im good",
-      user: "@alybaez",
-      timestamp: "4pm",
-    },
-    {
-      chat: "its wednesday my dudes",
-      user: "@scouttyBOI",
-      timestamp: "4pm",
-    },
-  ];
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -81,15 +72,17 @@ const ChatRoomScreen = ({ route, navigation }) => {
           </Text>
         </View>
         <View style={styles.chatContainer}>
-          {messages.map((text, i) => (
+          {messagesArr.map((text, i) => (
             <View
               style={true ? styles.chatReciever : styles.chatMessage}
               key={i}
             >
-              <Text style={styles.chatUser}>{text.user}</Text>
+              <Text style={styles.chatUser}>{text.name}</Text>
               <View style={styles.timestampContainer}>
-                <Text>{text.chat}</Text>
-                <Text style={styles.timestamp}>{text.timestamp}</Text>
+                <Text>{text.message}</Text>
+                <Text style={styles.timestamp}>
+                  {text?.timestamp?.toDate().toLocaleString().slice(10, 20)}
+                </Text>
               </View>
             </View>
           ))}

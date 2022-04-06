@@ -12,7 +12,12 @@ import React, { useState } from "react";
 
 const ChatRoomScreen = ({ route, navigation }) => {
   const [inputValue, setInputValue] = useState("");
+
   const singleRoom = route.params;
+
+  const handleSubmit = () => {
+    console.log("hi you typed", inputValue);
+  };
 
   const messages = [
     {
@@ -64,12 +69,14 @@ const ChatRoomScreen = ({ route, navigation }) => {
             style={styles.input}
             keyboardType="default"
             placeholder="Enter a message..."
+            onChangeText={setInputValue}
           />
           <Button
             title="Send"
             color="green"
-            accessibilityLabel="Send message to chat"
+            accessibilityLabel="Send message to the chat"
             value={inputValue}
+            onPress={handleSubmit}
           />
         </View>
       </SafeAreaView>

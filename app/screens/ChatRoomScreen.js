@@ -5,11 +5,30 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  TextInput,
 } from "react-native";
 import React from "react";
 
 const ChatRoomScreen = ({ route, navigation }) => {
   const singleRoom = route.params;
+
+  const messages = [
+    {
+      chat: "hey whats going on",
+      user: "@sam",
+      timestamp: "4pm",
+    },
+    {
+      chat: "hi im good",
+      user: "@alybaez",
+      timestamp: "4pm",
+    },
+    {
+      chat: "its wednesday my dudes",
+      user: "@scouttyBOI",
+      timestamp: "4pm",
+    },
+  ];
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -24,6 +43,23 @@ const ChatRoomScreen = ({ route, navigation }) => {
         <View style={styles.roomContainer}>
           <Text style={styles.nameText}>{singleRoom.name.toUpperCase()}</Text>
         </View>
+        <View style={styles.chatContainer}>
+          {messages.map((text, i) => (
+            <View
+              style={true ? styles.chatReciever : styles.chatMessage}
+              key={i}
+            >
+              <Text style={styles.chatUser}>{text.user}</Text>
+              <View style={styles.timestampContainer}>
+                <Text>{text.chat}</Text>
+                <Text style={styles.timestamp}>{text.timestamp}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
+        <View style={styles.footer}>
+          <TextInput />
+        </View>
       </SafeAreaView>
     </>
   );
@@ -32,13 +68,49 @@ const ChatRoomScreen = ({ route, navigation }) => {
 export default ChatRoomScreen;
 
 const styles = StyleSheet.create({
+  chatContainer: {
+    flex: 1,
+  },
+  chatMessage: {
+    position: "relative",
+    fontSize: 16,
+    paddingHorizontal: 14,
+    marginHorizontal: 30,
+    marginBottom: 20,
+    paddingVertical: 8,
+    marginVertical: 15,
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    alignSelf: "flex-start",
+  },
+  chatReciever: {
+    position: "relative",
+    fontSize: 16,
+    paddingHorizontal: 14,
+    marginHorizontal: 30,
+    marginBottom: 20,
+    paddingVertical: 8,
+    marginVertical: 15,
+    alignSelf: "flex-end",
+    backgroundColor: "skyblue",
+    borderRadius: 20,
+  },
+  chatUser: {
+    position: "absolute",
+    top: -15,
+    left: 10,
+    fontWeight: "600",
+    fontSize: 12,
+    color: "white",
+  },
   container: {
     backgroundColor: "#041f37",
     flex: 1,
   },
   roomContainer: {
-    borderBottomColor: "black",
-    borderBottomWidth: 2,
+    borderBottomColor: "lightgray",
+    borderBottomWidth: 1,
+    marginVertical: 10,
   },
   imageBack: {
     width: 30,
@@ -53,5 +125,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     marginVertical: 10,
+    color: "white",
+  },
+  timestamp: {
+    marginLeft: 10,
+    fontSize: 10,
+  },
+  timestampContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

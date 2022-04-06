@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { db } from "../../firebase";
-import auth from "../../firebase";
+import { db } from "../../../firebase";
+import auth from "../../../firebase";
 import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
 function ImageInput({
   imageUri,

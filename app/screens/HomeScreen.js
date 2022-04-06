@@ -1,9 +1,10 @@
 import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
+import Header from "../components/home/Header";
 import Post from "../components/post/Post";
-import BottomTabs from "../components/BottomTabs";
-import { bottomTabIcons } from "../components/BottomTabs";
+import BottomTabs from "../components/home/BottomTabs";
+import ChatFeed from "../components/chats/ChatFeed";
+import { bottomTabIcons } from "../components/home/BottomTabs";
 import { db } from "../../firebase";
 import auth from "../../firebase";
 import {
@@ -40,6 +41,7 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
+      <ChatFeed />
       <ScrollView>
         {allPosts.map((post, index) => (
           <Post post={post} key={index} />

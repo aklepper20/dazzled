@@ -1,6 +1,6 @@
 import { StyleSheet, SafeAreaView } from "react-native";
 import React, { useEffect, useState } from "react";
-import AddNewPost from "../components/AddNewPost";
+import AddNewPost from "../components/postEdit/AddNewPost";
 import { db } from "../../firebase";
 import auth from "../../firebase";
 import { onSnapshot, doc } from "firebase/firestore";

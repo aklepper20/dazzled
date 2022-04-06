@@ -5,8 +5,8 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import validUrl from "valid-url";
 
-import { db } from "../../firebase";
-import auth from "../../firebase";
+import { db } from "../../../firebase";
+import auth from "../../../firebase";
 import { doc, Timestamp } from "firebase/firestore";
 import ImageInput from "./ImageInput";
 

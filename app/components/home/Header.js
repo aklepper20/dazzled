@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import auth from "../../firebase";
+import auth from "../../../firebase";
 import { signOut } from "firebase/auth";
 
 const Header = () => {
@@ -24,7 +24,7 @@ const Header = () => {
           </View>
           <Image
             style={styles.image}
-            source={require("../assets/messaging.png")}
+            source={require("../../assets/messaging.png")}
           />
         </TouchableOpacity>
       </View>

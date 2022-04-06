@@ -6,10 +6,12 @@ import {
   Image,
   SafeAreaView,
   TextInput,
+  Button,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 const ChatRoomScreen = ({ route, navigation }) => {
+  const [inputValue, setInputValue] = useState("");
   const singleRoom = route.params;
 
   const messages = [
@@ -58,7 +60,17 @@ const ChatRoomScreen = ({ route, navigation }) => {
           ))}
         </View>
         <View style={styles.footer}>
-          <TextInput />
+          <TextInput
+            style={styles.input}
+            keyboardType="default"
+            placeholder="Enter a message..."
+          />
+          <Button
+            title="Send"
+            color="green"
+            accessibilityLabel="Send message to chat"
+            value={inputValue}
+          />
         </View>
       </SafeAreaView>
     </>
@@ -106,6 +118,21 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#041f37",
     flex: 1,
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 62,
+    borderTopColor: "lightgray",
+    borderTopWidth: 1,
+  },
+  input: {
+    borderRadius: 30,
+    backgroundColor: "white",
+    flex: 1,
+    padding: 10,
+    marginHorizontal: 7,
   },
   roomContainer: {
     borderBottomColor: "lightgray",

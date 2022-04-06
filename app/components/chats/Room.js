@@ -13,9 +13,9 @@ const Room = ({ room, navigation, onPress }) => {
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: room.image }} />
         <Text style={styles.name}>
-          {room.name.length > 11
-            ? room.name.slice(0, 7).toLowerCase() + "..."
-            : room.name.toLowerCase()}
+          {room.roomName?.length > 11
+            ? room.roomName?.slice(0, 7).toLowerCase() + "..."
+            : room.roomName?.toLowerCase()}
         </Text>
       </View>
     </TouchableWithoutFeedback>

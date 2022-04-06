@@ -5,7 +5,6 @@ import Post from "./Post";
 
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
-
 import { doc, onSnapshot, collection } from "firebase/firestore";
 
 const Profile = ({ navigation }) => {

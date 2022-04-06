@@ -64,7 +64,7 @@ function ImageInput({
       comments: [],
       timestamp: serverTimestamp(),
     }).then(() => navigation.goBack());
-    setImageUri(null);
+    // setImageUri(null);
   };
 
   return (

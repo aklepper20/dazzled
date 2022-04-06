@@ -8,16 +8,44 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import React, { useState } from "react";
+import auth, { db } from "../../firebase";
+import {
+  onSnapshot,
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+} from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 
 const ChatRoomScreen = ({ route, navigation }) => {
   const [inputValue, setInputValue] = useState("");
+  const [messagesArr, setMessagesArr] = useState([]);
 
   const singleRoom = route.params;
+  console.log(singleRoom);
 
   const handleSubmit = () => {
-    console.log("hi you typed", inputValue);
+    const docRef = doc(db, "rooms", singleRoom.id);
+    const colRef = collection(docRef, "messages");
+
+    addDoc(colRef, {
+      message: inputValue,
+      name: auth.currentUser.email,
+      timestamp: serverTimestamp(),
+    });
+    setInputValue("");
   };
+
+  //   useEffect(() => {
+  //     if (singleRoom.id) {
+  //         const docRef = doc(db, "rooms", singleRoom.id);
+  //         const colRef = collection(docRef, "messages");
+
+  //         onSnapshot(colRef, (snapshot) => {
+  //             setMessagesArr(snapshot.docs.map(doc => doc.data())
+  //         );
+  //   }, [singleRoom.id])
 
   const messages = [
     {
@@ -39,7 +67,7 @@ const ChatRoomScreen = ({ route, navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
           <Image
             style={styles.imageBack}
             source={{
@@ -48,7 +76,9 @@ const ChatRoomScreen = ({ route, navigation }) => {
           />
         </TouchableOpacity>
         <View style={styles.roomContainer}>
-          <Text style={styles.nameText}>{singleRoom.name.toUpperCase()}</Text>
+          <Text style={styles.nameText}>
+            {singleRoom.roomName.toUpperCase()}
+          </Text>
         </View>
         <View style={styles.chatContainer}>
           {messages.map((text, i) => (

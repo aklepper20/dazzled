@@ -26,18 +26,12 @@ const ChatRoomScreen = ({ route, navigation }) => {
 
   const singleRoom = route.params;
 
-  //   const docRef = query(
-  //     collectionGroup(db, "posts"),
-  //     orderBy("timestamp", "desc")
-  //   );
-
   useEffect(() => {
     const docRef = doc(db, "rooms", singleRoom.id);
     const colRef = query(
       collection(docRef, "messages"),
       orderBy("timestamp", "asc")
     );
-    // const colRef = collection(docRef, "messages");
     onSnapshot(colRef, (snapshot) => {
       setMessagesArr(snapshot.docs.map((doc) => doc.data()));
     });

@@ -7,7 +7,7 @@ import validUrl from "valid-url";
 
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
-import { doc, Timestamp } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import ImageInput from "./ImageInput";
 
 const PLACEHOLDER_IMG =
@@ -33,6 +33,23 @@ const PostUpload = ({ navigation, usersPosts }) => {
       }
     }
   };
+
+  const [userProfile, setUserProfile] = useState("");
+
+  const getAllUsers = async () => {
+    try {
+      onSnapshot(doc(db, "users", auth.currentUser.email), (snapshot) => {
+        setUserProfile(snapshot.data().avatar);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
   useEffect(() => {
     getUsername();
   }, []);
@@ -49,7 +66,8 @@ const PostUpload = ({ navigation, usersPosts }) => {
       owner_email: auth.currentUser.email,
       likes_by_users: [],
       comments: [],
-      timestamp: Timestamp.fromMillis(Date.parse("2019-01-01T13:45:23.101Z")),
+      timestamp: serverTimestamp(),
+      owner_profile: userProfile,
     }).then(() => navigation.goBack());
     setImageUri(null);
   };

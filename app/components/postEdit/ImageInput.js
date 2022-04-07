@@ -12,7 +12,13 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
-import { doc, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  collection,
+  addDoc,
+  serverTimestamp,
+  onSnapshot,
+} from "firebase/firestore";
 function ImageInput({
   imageUri,
   setImageUri,
@@ -24,6 +30,22 @@ function ImageInput({
   loggedInUsername,
 }) {
   const [isValid, setIsValid] = useState(false);
+
+  const [userProfile, setUserProfile] = useState("");
+
+  const getAllUsers = async () => {
+    try {
+      onSnapshot(doc(db, "users", auth.currentUser.email), (snapshot) => {
+        setUserProfile(snapshot.data().avatar);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
 
   useEffect(() => {
     requestPermission();
@@ -63,6 +85,7 @@ function ImageInput({
       likes_by_users: [],
       comments: [],
       timestamp: serverTimestamp(),
+      owner_profile: userProfile,
     }).then(() => navigation.goBack());
     // setImageUri(null);
   };

@@ -17,11 +17,6 @@ import {
 const HomeScreen = ({ navigation }) => {
   const [allPosts, setAllPosts] = useState([]);
 
-  // const getUserPosts = async () => {
-  // onSnapshot(collectionGroup(db, "users"), (snapshot) => {
-  //     setAllPosts(snapshot.docs.map((doc) => doc.data()));
-  //   });
-  // };
   useEffect(() => {
     const docRef = query(
       collectionGroup(db, "posts"),
@@ -30,14 +25,8 @@ const HomeScreen = ({ navigation }) => {
     onSnapshot(docRef, (snapshot) => {
       setAllPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
-    // onSnapshot(collectionGroup(db, "posts"), (snapshot) => {
-    //   setAllPosts(
-    //     snapshot.docs.map((doc) => doc.data())
-    //   );
-    // });
   }, []);
 
-  // console.log(auth.currentUser.email);
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />

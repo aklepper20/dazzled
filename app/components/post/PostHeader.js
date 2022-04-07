@@ -1,16 +1,37 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  Image,
+} from "react-native";
+import auth from "../../../firebase";
+import { db } from "../../../firebase";
+import {
+  doc,
+  collection,
+  addDoc,
+  serverTimestamp,
+  onSnapshot,
+  collectionGroup,
+} from "firebase/firestore";
 
-const PostHeader = ({ post }) => (
-  <TouchableWithoutFeedback>
-    <View style={styles.headerContainer}>
-      <View style={styles.headerInfo}>
-        {/* <Image style={styles.headerImg} source={{ uri: post?.image }} /> */}
-        <Text style={styles.headerText}>{post.user}</Text>
+const PostHeader = ({ post }) => {
+  return (
+    <TouchableWithoutFeedback>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerInfo}>
+          <Image
+            style={styles.headerImg}
+            source={{ uri: post.owner_profile }}
+          />
+          <Text style={styles.headerText}>{post.user}</Text>
+        </View>
       </View>
-    </View>
-  </TouchableWithoutFeedback>
-);
+    </TouchableWithoutFeedback>
+  );
+};
 
 export default PostHeader;
 

@@ -68,7 +68,11 @@ const ChatRoomScreen = ({ route, navigation }) => {
         <View style={styles.chatContainer}>
           {messagesArr.map((text, i) => (
             <View
-              style={true ? styles.chatReciever : styles.chatMessage}
+              style={
+                text.name === auth.currentUser.email
+                  ? styles.chatReciever
+                  : styles.chatMessage
+              }
               key={i}
             >
               <Text style={styles.chatUser}>{text.name}</Text>

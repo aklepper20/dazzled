@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   Button,
+  ScrollView,
 } from "react-native";
 import auth, { db } from "../../firebase";
 import {
@@ -18,11 +19,13 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 const ChatRoomScreen = ({ route, navigation }) => {
   const [inputValue, setInputValue] = useState("");
   const [messagesArr, setMessagesArr] = useState([]);
+
+  const scrollViewRef = useRef();
 
   const singleRoom = route.params;
 
@@ -32,9 +35,12 @@ const ChatRoomScreen = ({ route, navigation }) => {
       collection(docRef, "messages"),
       orderBy("timestamp", "asc")
     );
-    onSnapshot(colRef, (snapshot) => {
+    const unSub = onSnapshot(colRef, (snapshot) => {
       setMessagesArr(snapshot.docs.map((doc) => doc.data()));
     });
+    return () => {
+      unSub();
+    };
   }, [singleRoom.id]);
 
   const handleSubmit = () => {
@@ -65,7 +71,14 @@ const ChatRoomScreen = ({ route, navigation }) => {
             {singleRoom.roomName.toUpperCase()}
           </Text>
         </View>
-        <View style={styles.chatContainer}>
+        <ScrollView
+          style={styles.chatContainer}
+          alwaysBounceVertical={true}
+          ref={scrollViewRef}
+          onContentSizeChange={() =>
+            scrollViewRef.current.scrollToEnd({ animated: true })
+          }
+        >
           {messagesArr.map((text, i) => (
             <View
               style={
@@ -84,7 +97,7 @@ const ChatRoomScreen = ({ route, navigation }) => {
               </View>
             </View>
           ))}
-        </View>
+        </ScrollView>
         <View style={styles.footer}>
           <TextInput
             style={styles.input}

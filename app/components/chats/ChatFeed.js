@@ -15,10 +15,34 @@ import auth from "../../../firebase";
 import Room from "./Room";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { BackgroundImage } from "react-native-elements/dist/config";
+
+const API_KEY = "26600952-5557394967915b0df995251f6";
 
 const ChatFeed = ({ navigation }) => {
   const [input, setInput] = useState("");
   const [rooms, setRooms] = useState([]);
+  const [inputData, setInputData] = useState("");
+  const URL = `https://pixabay.com/api/?key=${API_KEY}&q=${input}&image_type=photo`;
+
+  const getBackgroundImg = async () => {
+    setInputData("");
+
+    const req = await fetch(
+      `https://pixabay.com/api/?key=${API_KEY}&q=${input}&image_type=photo`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setInputData(data.hits[0].largeImageURL);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    getBackgroundImg();
+  }, [input]);
 
   useEffect(() => {
     const unsub = onSnapshot(collection(db, "rooms"), (snapshot) => {
@@ -45,8 +69,7 @@ const ChatFeed = ({ navigation }) => {
     if (input) {
       const colRef = collection(db, "rooms");
       addDoc(colRef, {
-        image:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Chocolate_%28blue_background%29.jpg/200px-Chocolate_%28blue_background%29.jpg",
+        image: inputData,
         roomName: input,
       });
     }

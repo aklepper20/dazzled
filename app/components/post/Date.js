@@ -1,18 +1,22 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import React from "react";
 
 const Date = ({ post }) => (
-  <Text>
+  <View style={styles.container}>
     <Text style={styles.date}>
-      {post?.timestamp?.toDate().toLocaleString()}
+      {post?.timestamp?.toDate().toLocaleString().slice(0, 8)}
     </Text>
-  </Text>
+  </View>
 );
 
 export default Date;
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 5,
+    marginLeft: 18,
+  },
   date: {
     color: "grey",
     fontWeight: "300",

@@ -12,42 +12,42 @@ const UserInfo = () => {
   //   const [userAvatar, setUserAvatar] = useState();
 
   const getUserAvatar = () => {
-    onSnapshot(doc(db, "users", auth.currentUser.email), (snapshot) => {
-      setDefaultAvatar(snapshot.data().avatar);
-    });
+    // onSnapshot(doc(db, "users", auth.currentUser.email), (snapshot) => {
+    //   setDefaultAvatar(snapshot.data().avatar);
+    // });
   };
 
-  useEffect(() => {
-    getUserAvatar();
-  }, []);
+  // useEffect(() => {
+  //   getUserAvatar();
+  // }, []);
 
   const pickAvatar = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
-      });
-      setUserAvatar(result.uri);
-    } catch (error) {
-      console.log("Error reading an image", error);
-    }
-    updateAvatar();
+    // try {
+    //   const result = await ImagePicker.launchImageLibraryAsync({
+    //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    //     quality: 0.5,
+    //   });
+    //   setUserAvatar(result.uri);
+    // } catch (error) {
+    //   console.log("Error reading an image", error);
+    // }
+    // updateAvatar();
   };
 
-  const updateAvatar = async () => {
-    const avatarRef = doc(db, "users", auth.currentUser.email);
-    await updateDoc(avatarRef, {
-      avatar: userAvatar,
-    });
-    getUserAvatar();
-  };
+  // const updateAvatar = async () => {
+  //   const avatarRef = doc(db, "users", auth.currentUser.email);
+  //   await updateDoc(avatarRef, {
+  //     avatar: userAvatar,
+  //   });
+  //   getUserAvatar();
+  // };
 
   return (
     <View style={styles.container}>
       <Image
         style={styles.userImage}
         source={{
-          uri: defaultAvatar,
+          uri: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
         }}
       />
       <TouchableOpacity onPress={pickAvatar}>

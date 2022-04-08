@@ -2,8 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  Image,
   SafeAreaView,
   TextInput,
   Button,
@@ -22,7 +20,7 @@ import {
 import React, { useEffect, useState, useRef } from "react";
 import { Swipeable } from "react-native-gesture-handler";
 
-const ChatRoomScreen = ({ route, navigation }) => {
+const ChatRoomScreen = ({ route }) => {
   const [inputValue, setInputValue] = useState("");
   const [messagesArr, setMessagesArr] = useState([]);
 
@@ -67,14 +65,6 @@ const ChatRoomScreen = ({ route, navigation }) => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.navigate("HomeScreen")}>
-          <Image
-            style={styles.imageBack}
-            source={{
-              uri: "https://img.icons8.com/ios-glyphs/90/ffffff/back.png",
-            }}
-          />
-        </TouchableOpacity>
         <View style={styles.roomContainer}>
           <Text style={styles.nameText}>
             {singleRoom.roomName.toUpperCase()}
@@ -112,12 +102,12 @@ const ChatRoomScreen = ({ route, navigation }) => {
             keyboardType="default"
             placeholder="Enter a message..."
             onChangeText={setInputValue}
+            value={inputValue}
           />
           <Button
             title="Send"
             color="green"
             accessibilityLabel="Send message to the chat"
-            value={inputValue}
             onPress={handleSubmit}
           />
         </View>
@@ -187,14 +177,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray",
     borderBottomWidth: 1,
     marginVertical: 10,
-  },
-  imageBack: {
-    width: 30,
-    height: 30,
-    top: 10,
-    left: 20,
-    position: "absolute",
-    color: "white",
   },
   nameText: {
     fontSize: 34,

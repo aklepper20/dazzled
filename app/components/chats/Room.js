@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 
-const Room = ({ room, navigation, onPress }) => {
+const Room = ({ room, onPress }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>

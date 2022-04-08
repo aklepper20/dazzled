@@ -9,7 +9,13 @@ import {
 import React, { useState, useEffect } from "react";
 
 import { db } from "../../../firebase";
-import { onSnapshot, collection, addDoc } from "firebase/firestore";
+import {
+  onSnapshot,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+} from "firebase/firestore";
 import auth from "../../../firebase";
 
 import Room from "./Room";
@@ -44,8 +50,19 @@ const ChatFeed = ({ navigation }) => {
     getBackgroundImg();
   }, [input]);
 
+  //   const docRef = doc(db, "rooms", singleRoom.id);
+  //   const colRef = query(
+  //     collection(docRef, "messages"),
+  //     orderBy("timestamp", "asc")
+  //   );
+  //   const unSub = onSnapshot(colRef, (snapshot) => {
+  //     setMessagesArr(snapshot.docs.map((doc) => doc.data()));
+  //   });
+
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "rooms"), (snapshot) => {
+    const colRef = query(collection(db, "rooms"), orderBy("roomName", "asc"));
+
+    const unsub = onSnapshot(colRef, (snapshot) => {
       setRooms(
         snapshot.docs.map((doc) => ({
           id: doc.id,

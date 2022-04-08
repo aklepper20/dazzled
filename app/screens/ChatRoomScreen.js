@@ -89,7 +89,15 @@ const ChatRoomScreen = ({ route }) => {
                 }
                 key={i}
               >
-                <Text style={styles.chatUser}>{text.name}</Text>
+                <Text
+                  style={
+                    text.name === auth.currentUser.email
+                      ? styles.chatRecieverMessage
+                      : styles.chatUser
+                  }
+                >
+                  {text.name}
+                </Text>
                 <Text>{text.message}</Text>
               </View>
             </Swipeable>
@@ -133,6 +141,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     borderRadius: 20,
     alignSelf: "flex-start",
+  },
+  chatRecieverMessage: {
+    display: "none",
   },
   chatReciever: {
     position: "relative",

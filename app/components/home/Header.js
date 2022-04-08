@@ -3,7 +3,7 @@ import React from "react";
 import auth from "../../../firebase";
 import { signOut } from "firebase/auth";
 
-const Header = () => {
+const Header = ({ navigation }) => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
@@ -15,19 +15,8 @@ const Header = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={handleSignOut}>
-        <Text style={styles.logo}>Dazzled</Text>
+        <Text style={styles.logo}>Dazzle</Text>
       </TouchableOpacity>
-      <View style={styles.action}>
-        <TouchableOpacity>
-          <View style={styles.unreadBadge}>
-            <Text style={styles.unreadBadgeText}>11</Text>
-          </View>
-          <Image
-            style={styles.image}
-            source={require("../../assets/messaging.png")}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

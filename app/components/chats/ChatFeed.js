@@ -21,7 +21,6 @@ import auth from "../../../firebase";
 import Room from "./Room";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { BackgroundImage } from "react-native-elements/dist/config";
 
 const API_KEY = "26600952-5557394967915b0df995251f6";
 
@@ -49,15 +48,6 @@ const ChatFeed = ({ navigation }) => {
   useEffect(() => {
     getBackgroundImg();
   }, [input]);
-
-  //   const docRef = doc(db, "rooms", singleRoom.id);
-  //   const colRef = query(
-  //     collection(docRef, "messages"),
-  //     orderBy("timestamp", "asc")
-  //   );
-  //   const unSub = onSnapshot(colRef, (snapshot) => {
-  //     setMessagesArr(snapshot.docs.map((doc) => doc.data()));
-  //   });
 
   useEffect(() => {
     const colRef = query(collection(db, "rooms"), orderBy("roomName", "asc"));

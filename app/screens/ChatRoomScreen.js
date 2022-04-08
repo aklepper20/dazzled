@@ -20,6 +20,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import React, { useEffect, useState, useRef } from "react";
+import { Swipeable } from "react-native-gesture-handler";
 
 const ChatRoomScreen = ({ route, navigation }) => {
   const [inputValue, setInputValue] = useState("");
@@ -55,6 +56,14 @@ const ChatRoomScreen = ({ route, navigation }) => {
     setInputValue("");
   };
 
+  const rightActions = (text) => {
+    return (
+      <Text style={styles.timestamp}>
+        {text?.timestamp?.toDate().toLocaleString().slice(10, 20)}
+      </Text>
+    );
+  };
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -71,6 +80,7 @@ const ChatRoomScreen = ({ route, navigation }) => {
             {singleRoom.roomName.toUpperCase()}
           </Text>
         </View>
+
         <ScrollView
           style={styles.chatContainer}
           alwaysBounceVertical={true}
@@ -80,24 +90,22 @@ const ChatRoomScreen = ({ route, navigation }) => {
           }
         >
           {messagesArr.map((text, i) => (
-            <View
-              style={
-                text.name === auth.currentUser.email
-                  ? styles.chatReciever
-                  : styles.chatMessage
-              }
-              key={i}
-            >
-              <Text style={styles.chatUser}>{text.name}</Text>
-              <View style={styles.timestampContainer}>
+            <Swipeable renderRightActions={() => rightActions(text)}>
+              <View
+                style={
+                  text.name === auth.currentUser.email
+                    ? styles.chatReciever
+                    : styles.chatMessage
+                }
+                key={i}
+              >
+                <Text style={styles.chatUser}>{text.name}</Text>
                 <Text>{text.message}</Text>
-                <Text style={styles.timestamp}>
-                  {text?.timestamp?.toDate().toLocaleString().slice(10, 20)}
-                </Text>
               </View>
-            </View>
+            </Swipeable>
           ))}
         </ScrollView>
+
         <View style={styles.footer}>
           <TextInput
             style={styles.input}
@@ -196,11 +204,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   timestamp: {
-    marginLeft: 10,
+    color: "white",
     fontSize: 10,
-  },
-  timestampContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    marginVertical: 23,
   },
 });

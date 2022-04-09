@@ -14,7 +14,11 @@ import {
   collection,
   addDoc,
   query,
+  doc,
   orderBy,
+  collectionGroup,
+  updateDoc,
+  updateCollection,
 } from "firebase/firestore";
 import auth from "../../../firebase";
 
@@ -28,11 +32,12 @@ const ChatFeed = ({ navigation }) => {
   const [input, setInput] = useState("");
   const [rooms, setRooms] = useState([]);
   const [inputData, setInputData] = useState("");
+  const [ifUnread, setIfUnread] = useState("");
+
   const URL = `https://pixabay.com/api/?key=${API_KEY}&q=${input}&image_type=photo`;
 
   const getBackgroundImg = async () => {
     setInputData("");
-
     const req = await fetch(
       `https://pixabay.com/api/?key=${API_KEY}&q=${input}&image_type=photo`
     )
@@ -65,6 +70,15 @@ const ChatFeed = ({ navigation }) => {
     return () => {
       unsub();
     };
+  }, []);
+
+  const getUnread = async () => {
+    const r = rooms.map((r) => r.id);
+    console.log(r);
+  };
+
+  useEffect(() => {
+    getUnread();
   }, []);
 
   const handleAddRoom = () => {
@@ -103,6 +117,8 @@ const ChatFeed = ({ navigation }) => {
               room={room}
               onPress={() => navigation.navigate("ChatRoomScreen", room)}
               navigation={navigation}
+              ifUnread={ifUnread}
+              setIfUnread={setIfUnread}
             />
           </View>
         ))}

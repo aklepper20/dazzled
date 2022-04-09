@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   headerImg: {
-    width: 70,
-    height: 70,
+    width: 45,
+    height: 45,
     borderRadius: 40,
     marginLeft: 6,
     borderWidth: 1.5,
@@ -62,5 +62,6 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 5,
     fontWeight: "700",
+    paddingTop: 10,
   },
 });

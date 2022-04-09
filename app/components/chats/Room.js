@@ -5,25 +5,22 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { db } from "../../../firebase";
+import { collection, onSnapshot, doc } from "firebase/firestore";
 
 const Room = ({ room, onPress }) => {
   return (
-    <>
-      <View style={styles.unreadBadge}>
-        <Text style={styles.unreadBadgeText}>11</Text>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.container}>
+        <Image style={styles.image} source={{ uri: room.image }} />
+        <Text style={styles.name}>
+          {room.roomName?.length > 11
+            ? room.roomName?.slice(0, 7).toLowerCase() + "..."
+            : room.roomName?.toLowerCase()}
+        </Text>
       </View>
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View style={styles.container}>
-          <Image style={styles.image} source={{ uri: room.image }} />
-          <Text style={styles.name}>
-            {room.roomName?.length > 11
-              ? room.roomName?.slice(0, 7).toLowerCase() + "..."
-              : room.roomName?.toLowerCase()}
-          </Text>
-        </View>
-      </TouchableWithoutFeedback>
-    </>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -46,14 +43,14 @@ const styles = StyleSheet.create({
   },
   unreadBadge: {
     backgroundColor: "#ff3250",
-    width: 25,
+    width: 18,
     height: 18,
     borderRadius: 9,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 10,
     position: "absolute",
-    left: 50,
+    left: 55,
     bottom: 20,
   },
   unreadBadgeText: {

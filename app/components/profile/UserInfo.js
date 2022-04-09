@@ -8,8 +8,7 @@ import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
 
 const UserInfo = () => {
-  const [userImg, setUserImg] = useState("");
-  const [updatedImg, setUpdatedImg] = useState();
+  const [userImg, setUserImg] = useState();
 
   const getUserImg = async () => {
     try {
@@ -22,34 +21,9 @@ const UserInfo = () => {
     }
   };
 
-  const selectAvatar = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 0.5,
-      });
-      setUpdatedImg(result.uri);
-    } catch (error) {
-      console.log("Error reading an image", error);
-    }
-
-    updateUserImg();
-  };
-
-  const updateUserImg = async () => {
-    try {
-      const docRef = doc(db, "users", auth.currentUser.email);
-      updateDoc(docRef, {
-        avatar: updatedImg,
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
     getUserImg();
-  }, [userImg]);
+  });
 
   return (
     <View style={styles.container}>
@@ -59,14 +33,6 @@ const UserInfo = () => {
           uri: userImg,
         }}
       />
-      <TouchableOpacity onPress={selectAvatar}>
-        <MaterialCommunityIcons
-          style={styles.plusIcon}
-          name="plus-circle"
-          color="darkgrey"
-          size={32}
-        />
-      </TouchableOpacity>
       <Text style={styles.userText}>{auth.currentUser.email}</Text>
       <Text style={styles.userLocation}>California, USA</Text>
     </View>
@@ -88,7 +54,6 @@ const styles = StyleSheet.create({
   userImage: {
     height: 100,
     width: 100,
-    borderRadius: 18,
   },
   userText: {
     fontWeight: "700",
@@ -101,10 +66,5 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     fontSize: 13,
     color: "white",
-  },
-  plusIcon: {
-    position: "absolute",
-    top: -16,
-    left: 32,
   },
 });

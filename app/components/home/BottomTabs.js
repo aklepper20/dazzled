@@ -1,5 +1,5 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const bottomTabIcons = [
   {
@@ -35,7 +35,11 @@ const BottomTabs = ({ icons, navigation }) => {
     if (icon.name === "Profile") {
       navigation.navigate("ProfileScreen");
     }
+    if (icon.name === "Home") {
+      navigation.navigate("HomeScreen");
+    }
   };
+
   const Icon = ({ icon }) => (
     <TouchableOpacity onPress={() => handlePress(icon)}>
       <Image

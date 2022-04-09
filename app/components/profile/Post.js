@@ -15,11 +15,12 @@ const styles = StyleSheet.create({
   container: {
     height: 100,
     width: 100,
-    backgroundColor: "blue",
+
     margin: 8,
   },
   image: {
     width: "100%",
     height: "100%",
+    borderRadius: 10,
   },
 });

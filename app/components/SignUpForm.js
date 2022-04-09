@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -17,20 +17,18 @@ import { doc, setDoc } from "firebase/firestore";
 import auth from "../../firebase";
 import { db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { v4 as uuidv4 } from "uuid";
 
 const SignUpForm = ({ navigation }) => {
+  const [gif, setGif] = useState("");
+  const [randomUID, setRandomUID] = useState(uuidv4());
+
   const SignUpFormSchema = Yup.object().shape({
     email: Yup.string().email().required("Email Required"),
     password: Yup.string()
       .required("Password Required")
       .min(6, "Password must have at least 8 characters"),
   });
-
-  // const addPostsArrFirebase = async () => {
-  //   await setDoc(doc(db, "users", auth.currentUser.email), {
-  //     postsArr: [],
-  //   });
-  // };
 
   const onSignUp = async (email, password) => {
     try {
@@ -42,8 +40,7 @@ const SignUpForm = ({ navigation }) => {
       await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,
         email: authUser.user.email,
-        avatar:
-          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
+        avatar: `https://robohash.org/${randomUID}`,
       });
     } catch (err) {
       Alert.alert(`${email},`, err.message);

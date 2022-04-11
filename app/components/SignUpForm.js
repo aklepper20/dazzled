@@ -21,7 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 
 const SignUpForm = ({ navigation }) => {
   const [gif, setGif] = useState("");
-  const [randomUID, setRandomUID] = useState(uuidv4());
+  const [randomUID, setRandomUID] = useState();
 
   const SignUpFormSchema = Yup.object().shape({
     email: Yup.string().email().required("Email Required"),
@@ -30,6 +30,10 @@ const SignUpForm = ({ navigation }) => {
       .min(6, "Password must have at least 8 characters"),
   });
 
+  useEffect(() => {
+    const uuid = uuidv4();
+    setRandomUID(uuid);
+  }, []);
   const onSignUp = async (email, password) => {
     try {
       const authUser = await createUserWithEmailAndPassword(

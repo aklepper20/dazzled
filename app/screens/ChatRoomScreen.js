@@ -57,7 +57,7 @@ const ChatRoomScreen = ({ route }) => {
   const rightActions = (text) => {
     return (
       <Text style={styles.timestamp}>
-        {text?.timestamp?.toDate().toLocaleString().slice(10, 20)}
+        {text?.timestamp?.toDate().toLocaleString().slice(10, 21)}
       </Text>
     );
   };
@@ -80,14 +80,13 @@ const ChatRoomScreen = ({ route }) => {
           }
         >
           {messagesArr.map((text, i) => (
-            <Swipeable renderRightActions={() => rightActions(text)}>
+            <Swipeable key={i} renderRightActions={() => rightActions(text)}>
               <View
                 style={
                   text.name === auth.currentUser.email
                     ? styles.chatReciever
                     : styles.chatMessage
                 }
-                key={i}
               >
                 <Text
                   style={
@@ -200,5 +199,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 10,
     marginVertical: 23,
+    paddingRight: 5,
   },
 });

@@ -48,12 +48,15 @@ const HomeScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
       <ChatFeed navigation={navigation} />
-      <ActivityIndicator animating={loading} size="large" />
-      <ScrollView>
-        {allPosts.map((post, index) => (
-          <Post post={post} key={index} />
-        ))}
-      </ScrollView>
+      {loading ? (
+        <ActivityIndicator animating={loading} size="large" />
+      ) : (
+        <ScrollView>
+          {allPosts.map((post, index) => (
+            <Post post={post} key={index} />
+          ))}
+        </ScrollView>
+      )}
       <BottomTabs icons={bottomTabIcons} navigation={navigation} />
     </SafeAreaView>
   );

@@ -41,8 +41,8 @@ const Comments = ({ post, viewComments }) => {
       {viewComments &&
         post.comments.map((comment) => {
           return (
-            <Swipeable>
-              <Text style={styles.commentContainer} key={comment.id}>
+            <Swipeable key={comment.id}>
+              <Text style={styles.commentContainer}>
                 <Text style={styles.footerText}>
                   <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
                   {comment.comment}

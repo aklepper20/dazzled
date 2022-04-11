@@ -1,15 +1,21 @@
-import { StyleSheet, Text, View, Image, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
 import auth from "../../../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
-
 import { signOut } from "firebase/auth";
+
 import * as Location from "expo-location";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { TouchableWithoutFeedback } from "react-native-web";
 
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();
@@ -78,16 +84,19 @@ const UserInfo = () => {
           uri: userImg,
         }}
       />
-      <TouchableWithoutFeedback onPress={handleSignOut}>
+      <TouchableOpacity onPress={handleSignOut}>
         <MaterialCommunityIcons
           name="logout"
           color="yellow"
           size={30}
           style={styles.logout}
         />
-      </TouchableWithoutFeedback>
-
-      <Text style={styles.userText}>{auth.currentUser.email}</Text>
+      </TouchableOpacity>
+      <Text style={styles.userText}>
+        {auth.currentUser.email.length >= 11
+          ? auth.currentUser.email.slice(0, 10) + "..."
+          : auth.currentUser.email}
+      </Text>
       <Text style={styles.userLocation}>
         {location ? location : "Loading City..."}
       </Text>
@@ -109,8 +118,8 @@ const styles = StyleSheet.create({
   },
   logout: {
     position: "absolute",
-    top: 90,
-    right: -60,
+    top: -20,
+    right: -150,
   },
   userImage: {
     height: 100,

@@ -1,12 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const Header = ({ navigation }) => {
+const Header = () => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={handleSignOut}>
-        <Text style={styles.logo}>Dazzle</Text>
-      </TouchableOpacity>
+      <Text style={styles.logo}>Dazzle</Text>
     </View>
   );
 };

@@ -2,12 +2,10 @@ import { StyleSheet, Text, View, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import auth from "../../../firebase";
-import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { API_KEY } from "../../apiKey";
 
 import * as Location from "expo-location";
-import { async } from "@firebase/util";
 
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();

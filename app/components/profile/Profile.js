@@ -1,4 +1,4 @@
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import UserInfo from "./UserInfo";
 import Post from "./Post";
@@ -9,13 +9,20 @@ import { doc, onSnapshot, collection } from "firebase/firestore";
 
 const Profile = ({ navigation }) => {
   const [userPosts, setUserPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const getPosts = () => {
-    const docRef = doc(db, "users", auth.currentUser.email);
+  const getPosts = async () => {
+    setLoading(true);
+    try {
+      const docRef = doc(db, "users", auth.currentUser.email);
 
-    onSnapshot(collection(docRef, "posts"), (snapshot) => {
-      setUserPosts(snapshot.docs.map((doc) => doc.data()));
-    });
+      onSnapshot(collection(docRef, "posts"), (snapshot) => {
+        setUserPosts(snapshot.docs.map((doc) => doc.data()));
+      });
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -25,6 +32,7 @@ const Profile = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <UserInfo posts={userPosts} />
+      <ActivityIndicator animating={loading} size="large" />
       <FlatList
         numColumns={3}
         style={styles.postContainer}

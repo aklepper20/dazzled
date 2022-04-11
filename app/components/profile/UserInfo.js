@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
 
 import auth from "../../../firebase";
 import { doc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { API_KEY } from "../../apiKey";
+
+import * as Location from "expo-location";
+import { async } from "@firebase/util";
 
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();
+  const [location, setLocation] = useState();
+  const [cityLocation, setCityLocation] = useState();
 
   const getUserImg = async () => {
     try {
@@ -21,8 +25,40 @@ const UserInfo = () => {
     }
   };
 
+  const getLocation = async () => {
+    try {
+      const { granted } = await Location.requestForegroundPermissionsAsync();
+
+      if (!granted) {
+        Alert.alert(
+          "Permission not granted",
+          "Allow the app to use location service.",
+          [{ text: "OK" }],
+          { cancelable: false }
+        );
+        return;
+      }
+      let { coords } = await Location.getCurrentPositionAsync();
+      if (coords) {
+        const { latitude, longitude } = coords;
+        let response = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+        for (let item of response) {
+          let address = `${item.city}, ${item.country}`;
+
+          setLocation(address);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getUserImg();
+    getLocation();
   });
 
   return (
@@ -34,7 +70,9 @@ const UserInfo = () => {
         }}
       />
       <Text style={styles.userText}>{auth.currentUser.email}</Text>
-      <Text style={styles.userLocation}>California, USA</Text>
+      <Text style={styles.userLocation}>
+        {location ? location : "Loading City..."}
+      </Text>
     </View>
   );
 };

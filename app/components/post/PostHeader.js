@@ -6,16 +6,6 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
-import auth from "../../../firebase";
-import { db } from "../../../firebase";
-import {
-  doc,
-  collection,
-  addDoc,
-  serverTimestamp,
-  onSnapshot,
-  collectionGroup,
-} from "firebase/firestore";
 
 const PostHeader = ({ post }) => {
   return (

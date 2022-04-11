@@ -4,7 +4,7 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 const ProfileHeader = ({ navigation }) => {
   return (

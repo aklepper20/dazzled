@@ -1,4 +1,9 @@
-import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import Header from "../components/home/Header";
 import Post from "../components/post/Post";
@@ -6,7 +11,6 @@ import BottomTabs from "../components/home/BottomTabs";
 import ChatFeed from "../components/chats/ChatFeed";
 import { bottomTabIcons } from "../components/home/BottomTabs";
 import { db } from "../../firebase";
-import auth from "../../firebase";
 import {
   collectionGroup,
   onSnapshot,
@@ -16,21 +20,35 @@ import {
 
 const HomeScreen = ({ navigation }) => {
   const [allPosts, setAllPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getPosts = async () => {
+    setLoading(true);
+    try {
+      const docRef = query(
+        collectionGroup(db, "posts"),
+        orderBy("timestamp", "desc")
+      );
+      onSnapshot(docRef, (snapshot) => {
+        setAllPosts(
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
+      });
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    const docRef = query(
-      collectionGroup(db, "posts"),
-      orderBy("timestamp", "desc")
-    );
-    onSnapshot(docRef, (snapshot) => {
-      setAllPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-    });
+    getPosts();
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation} />
       <ChatFeed navigation={navigation} />
+      <ActivityIndicator animating={loading} size="large" />
       <ScrollView>
         {allPosts.map((post, index) => (
           <Post post={post} key={index} />

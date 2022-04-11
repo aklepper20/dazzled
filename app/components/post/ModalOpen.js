@@ -16,13 +16,17 @@ const ModalOpen = ({ post, visible, setVisible }) => {
           <TouchableOpacity onPress={() => setVisible(false)}>
             <Text style={styles.closeButton}>X</Text>
             <Text style={styles.title}>Likes</Text>
-            <ScrollView style={styles.likeFeed}>
-              {post.likes_by_users.map((like, index) => (
-                <Text key={index} style={styles.userLiked}>
-                  {like}
-                </Text>
-              ))}
-            </ScrollView>
+            {post.likes_by_users.length === 0 ? (
+              <Text>There are no likes yet...</Text>
+            ) : (
+              <ScrollView style={styles.likeFeed}>
+                {post.likes_by_users.map((like, index) => (
+                  <Text key={index} style={styles.userLiked}>
+                    {like}
+                  </Text>
+                ))}
+              </ScrollView>
+            )}
           </TouchableOpacity>
         </View>
       </View>

@@ -41,8 +41,6 @@ const Comments = ({ post, viewComments }) => {
       {viewComments &&
         post.comments.map((comment) => {
           return (
-            // <SingleComment comment={comment} id={comment.id} post={post} />
-            // <Swipeable renderRightActions={() => rightSwipe(id)}>
             <Swipeable>
               <Text style={styles.commentContainer} key={comment.id}>
                 <Text style={styles.footerText}>

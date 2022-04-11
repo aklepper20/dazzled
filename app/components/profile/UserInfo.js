@@ -10,7 +10,6 @@ import * as Location from "expo-location";
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();
   const [location, setLocation] = useState();
-  const [cityLocation, setCityLocation] = useState();
 
   const getUserImg = async () => {
     try {

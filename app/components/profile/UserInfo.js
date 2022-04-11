@@ -5,7 +5,11 @@ import auth from "../../../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 
+import { signOut } from "firebase/auth";
 import * as Location from "expo-location";
+
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableWithoutFeedback } from "react-native-web";
 
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();
@@ -53,6 +57,14 @@ const UserInfo = () => {
     }
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getUserImg();
     getLocation();
@@ -66,6 +78,15 @@ const UserInfo = () => {
           uri: userImg,
         }}
       />
+      <TouchableWithoutFeedback onPress={handleSignOut}>
+        <MaterialCommunityIcons
+          name="logout"
+          color="yellow"
+          size={30}
+          style={styles.logout}
+        />
+      </TouchableWithoutFeedback>
+
       <Text style={styles.userText}>{auth.currentUser.email}</Text>
       <Text style={styles.userLocation}>
         {location ? location : "Loading City..."}
@@ -85,6 +106,11 @@ const styles = StyleSheet.create({
     left: 100,
     justifyContent: "center",
     alignItems: "center",
+  },
+  logout: {
+    position: "absolute",
+    top: 90,
+    right: -60,
   },
   userImage: {
     height: 100,

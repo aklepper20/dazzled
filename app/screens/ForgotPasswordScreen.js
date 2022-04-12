@@ -23,17 +23,15 @@ const ForgotPasswordScreen = ({ navigation }) => {
 
   const handleForgotPassword = async (email, { resetForm }) => {
     const auth = getAuth();
-
-    await sendPasswordResetEmail(auth, email)
-      .then(() => {
+    try {
+      await sendPasswordResetEmail(auth, email).then(() => {
         setAuthSuccessful(true);
         resetForm();
-      })
-
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
       });
+    } catch (err) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    }
   };
 
   const handleBacktoLogin = () => {
@@ -55,7 +53,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
           handleChange,
           handleBlur,
           handleSubmit,
-          resetForm,
+
           values,
           isValid,
           errors,
@@ -102,7 +100,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
               style={styles.button(isValid)}
               onPress={handleSubmit}
             >
-              <Text style={styles.buttonText}>Send to Reset Password</Text>
+              <Text style={styles.buttonText}>Reset Password</Text>
             </Pressable>
           </>
         )}

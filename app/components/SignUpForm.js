@@ -28,11 +28,16 @@ const SignUpForm = ({ navigation }) => {
     password: Yup.string()
       .required("Password Required")
       .min(6, "Password must have at least 8 characters"),
+    passwordConfirmation: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords must match"
+    ),
   });
 
   useEffect(() => {
     const uuid = uuidv4();
     setRandomUID(uuid);
+    setGif(`https://robohash.org/${randomUID}`);
   }, []);
 
   const onSignUp = async (email, password) => {
@@ -45,7 +50,7 @@ const SignUpForm = ({ navigation }) => {
       await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,
         email: authUser.user.email,
-        avatar: `https://robohash.org/${randomUID}`,
+        avatar: gif,
       });
     } catch (err) {
       Alert.alert(`${email},`, err.message);
@@ -127,9 +132,35 @@ const SignUpForm = ({ navigation }) => {
                 {errors.password}
               </Text>
             )}
-            <View style={styles.forgotPassword}>
-              <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+
+            <View>
+              <TextInput
+                style={[
+                  styles.inputField,
+                  {
+                    borderColor:
+                      1 > values.password.length || values.password.length > 6
+                        ? "#ccc"
+                        : "red",
+                  },
+                ]}
+                placeholderTextColor="#444"
+                placeholder="Confirm Password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                secureTextEntry={true}
+                textContentType="password"
+                onChangeText={handleChange("passwordConfirmation")}
+                onBlur={handleBlur("passwordConfirmation")}
+                value={values.passwordConfirmation}
+              />
             </View>
+            {errors.passwordConfirmation && touched.passwordConfirmation && (
+              <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
+                {errors.passwordConfirmation}
+              </Text>
+            )}
+
             <Pressable
               titleSize={20}
               style={styles.button(isValid)}

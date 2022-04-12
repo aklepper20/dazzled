@@ -7,6 +7,8 @@ import {
   Image,
 } from "react-native";
 
+import colors from "../../config/colors";
+
 const PostHeader = ({ post }) => {
   return (
     <TouchableWithoutFeedback>
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginLeft: 6,
     borderWidth: 1.5,
-    borderColor: "#ff8501",
+    borderColor: colors.pink,
     marginTop: 10,
   },
   headerInfo: {
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerText: {
-    color: "white",
+    color: colors.white,
     marginLeft: 5,
     fontWeight: "700",
     paddingTop: 10,

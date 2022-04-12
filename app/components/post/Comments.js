@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { v4 as uuidv4 } from "uuid";
+import colors from "../../config/colors";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const Comments = ({ post, viewComments }) => {
   const [comment, setComment] = useState("");
@@ -91,11 +92,11 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 15,
-    color: "white",
+    color: colors.white,
   },
 
   inputContainer: {
-    backgroundColor: "lightgray",
+    backgroundColor: colors.lightgrey,
     height: 35,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   postIt: {
-    backgroundColor: "yellow",
+    backgroundColor: colors.secondary,
     borderRadius: 20,
     height: 25,
     width: 40,

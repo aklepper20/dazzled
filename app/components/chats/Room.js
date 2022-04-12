@@ -5,9 +5,9 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import { db } from "../../../firebase";
-import { collection, onSnapshot, doc } from "firebase/firestore";
+import React from "react";
+
+import colors from "../../config/colors";
 
 const Room = ({ room, onPress }) => {
   return (
@@ -36,25 +36,9 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 20,
     borderWidth: 3,
-    borderColor: "#ff8501",
+    borderColor: colors.secondary,
   },
   name: {
     color: "white",
-  },
-  unreadBadge: {
-    backgroundColor: "#ff3250",
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
-    position: "absolute",
-    left: 55,
-    bottom: 20,
-  },
-  unreadBadgeText: {
-    color: "white",
-    fontWeight: "600",
   },
 });

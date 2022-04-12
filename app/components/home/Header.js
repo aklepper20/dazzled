@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import colors from "../../config/colors";
 
 const Header = () => {
   return (
@@ -13,40 +14,14 @@ export default Header;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
-    marginHorizontal: 20,
+    marginVertical: 10,
   },
   logo: {
     fontSize: 20,
     fontWeight: "600",
-    fontStyle: "italic",
-    color: "#84f8cc",
-  },
-  image: {
-    height: 30,
-    width: 30,
-    color: "white",
-  },
-  action: {
-    color: "#62c934",
-    fontSize: 100,
-  },
-  unreadBadge: {
-    backgroundColor: "#ff3250",
-    width: 25,
-    height: 18,
-    borderRadius: 9,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
-    position: "absolute",
-    left: 15,
-    bottom: 18,
-  },
-  unreadBadgeText: {
-    color: "white",
-    fontWeight: "600",
+    color: colors.white,
   },
 });

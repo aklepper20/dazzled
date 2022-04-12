@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
+import colors from "../../config/colors";
 const CommentsSection = ({
   post,
   viewComments,
@@ -25,7 +26,7 @@ export default CommentsSection;
 
 const styles = StyleSheet.create({
   comment: {
-    color: "grey",
+    color: colors.lightgrey,
     marginTop: 5,
     marginHorizontal: 15,
   },

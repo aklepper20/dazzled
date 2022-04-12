@@ -18,6 +18,7 @@ import auth from "../../firebase";
 import { db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
+import colors from "../config/colors";
 
 const SignUpForm = ({ navigation }) => {
   const [gif, setGif] = useState("");
@@ -155,7 +156,7 @@ const SignUpForm = ({ navigation }) => {
                 value={values.passwordConfirmation}
               />
             </View>
-            {errors.passwordConfirmation && touched.passwordConfirmation && (
+            {errors.passwordConfirmation && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.passwordConfirmation}
               </Text>
@@ -171,7 +172,7 @@ const SignUpForm = ({ navigation }) => {
             <View style={styles.signupContainer}>
               <Text>Already have an account?</Text>
               <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={styles.signUpText}>Log in!</Text>
+                <Text style={styles.signUpText}> Log in!</Text>
               </TouchableOpacity>
             </View>
           </>
@@ -185,7 +186,7 @@ export default SignUpForm;
 
 const styles = StyleSheet.create({
   button: (isValid) => ({
-    backgroundColor: isValid ? "yellow" : "blue",
+    backgroundColor: isValid ? colors.pink : colors.lightgrey,
     alignItems: "center",
     borderRadius: 8,
     justifyContent: "center",
@@ -193,14 +194,11 @@ const styles = StyleSheet.create({
   }),
   container: {
     marginBottom: 80,
-    backgroundColor: "white",
     padding: 12,
-    borderRadius: 8,
   },
   inputField: {
     borderRadius: 8,
     padding: 12,
-    backgroundColor: "white",
     marginBottom: 10,
     borderWidth: 1,
   },
@@ -213,7 +211,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontWeight: "600",
-    color: "black",
+    color: colors.black,
     fontSize: 20,
   },
   signupContainer: {
@@ -223,6 +221,6 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   signUpText: {
-    color: "black",
+    color: colors.black,
   },
 });

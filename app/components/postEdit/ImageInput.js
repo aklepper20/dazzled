@@ -87,7 +87,6 @@ function ImageInput({
       timestamp: serverTimestamp(),
       owner_profile: userProfile,
     }).then(() => navigation.goBack());
-    // setImageUri(null);
   };
 
   return (

@@ -2,8 +2,9 @@ import { StyleSheet, View } from "react-native";
 import React from "react";
 import Profile from "../components/profile/Profile";
 import ProfileHeader from "../components/profile/ProfileHeader";
+import colors from "../config/colors";
 
-const ProfileScreen = ({ navigation, usersPosts }) => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <>
       <View style={styles.container}>
@@ -19,6 +20,6 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#041f37",
+    backgroundColor: colors.primary,
   },
 });

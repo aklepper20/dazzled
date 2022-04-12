@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from "react-native";
 
 import React from "react";
+import colors from "../../config/colors";
 
 const Date = ({ post }) => (
   <View style={styles.container}>
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     marginLeft: 18,
   },
   date: {
-    color: "grey",
+    color: colors.lightgrey,
     fontWeight: "300",
     fontSize: 12,
   },

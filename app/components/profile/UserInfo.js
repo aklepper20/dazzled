@@ -16,6 +16,7 @@ import { signOut } from "firebase/auth";
 import * as Location from "expo-location";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import colors from "../../config/colors";
 
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();
@@ -89,7 +90,7 @@ const UserInfo = () => {
       <TouchableOpacity onPress={handleSignOut}>
         <MaterialCommunityIcons
           name="logout"
-          color="yellow"
+          color={colors.lightgrey}
           size={30}
           style={styles.logout}
         />
@@ -133,15 +134,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
     marginBottom: 7,
     marginTop: 10,
-    color: "white",
+    color: colors.white,
   },
   userLocation: {
     fontWeight: "300",
     fontSize: 13,
-    color: "white",
+    color: colors.white,
   },
   profileBackground: {
-    backgroundColor: "teal",
+    backgroundColor: colors.pink,
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 100,

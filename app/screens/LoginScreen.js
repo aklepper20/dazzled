@@ -1,20 +1,20 @@
-import { StyleSheet, Text, View, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import React from "react";
 import LoginForm from "../components/LoginForm";
+import colors from "../config/colors";
 
 const LoginScreen = ({ navigation }) => {
   return (
-    <ImageBackground
-      blurRadius={5}
-      style={styles.background}
-      source={require("../assets/background.jpg")}
-    >
+    <View style={styles.background}>
       <View style={styles.logoContainer}>
-        <Text style={styles.logo}>Dazzled</Text>
-        <Text>Tagline for dazzled</Text>
+        <Image
+          style={styles.logoImage}
+          source={require("../assets/diamond.png")}
+        />
+        <Text style={styles.logo}>Dazzle</Text>
       </View>
       <LoginForm navigation={navigation} />
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -22,21 +22,24 @@ export default LoginScreen;
 
 const styles = StyleSheet.create({
   background: {
+    backgroundColor: colors.white,
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
   },
-
   logo: {
-    fontSize: 50,
-    color: "white",
+    fontSize: 40,
+    color: colors.black,
     fontWeight: "400",
     fontStyle: "italic",
   },
-
   logoContainer: {
     position: "absolute",
-    top: 70,
+    top: 150,
     alignItems: "center",
+  },
+  logoImage: {
+    height: 90,
+    width: 90,
   },
 });

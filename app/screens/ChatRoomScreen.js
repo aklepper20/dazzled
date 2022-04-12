@@ -19,6 +19,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState, useRef } from "react";
 import { Swipeable } from "react-native-gesture-handler";
+import colors from "../config/colors";
 
 const ChatRoomScreen = ({ route }) => {
   const [inputValue, setInputValue] = useState("");
@@ -113,7 +114,7 @@ const ChatRoomScreen = ({ route }) => {
           />
           <Button
             title="Send"
-            color="green"
+            color={colors.black}
             accessibilityLabel="Send message to the chat"
             onPress={handleSubmit}
           />
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingVertical: 8,
     marginVertical: 15,
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.pink,
     borderRadius: 20,
     alignSelf: "flex-start",
   },
@@ -153,7 +154,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginVertical: 15,
     alignSelf: "flex-end",
-    backgroundColor: "skyblue",
+    backgroundColor: colors.lightgrey,
     borderRadius: 20,
   },
   chatUser: {
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   container: {
-    backgroundColor: "#041f37",
+    backgroundColor: colors.primary,
     flex: 1,
   },
   footer: {
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     marginVertical: 10,
-    color: "white",
+    color: colors.white,
   },
   timestamp: {
     color: "white",

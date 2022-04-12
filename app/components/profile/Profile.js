@@ -6,6 +6,7 @@ import Post from "./Post";
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
 import { doc, onSnapshot, collection } from "firebase/firestore";
+import colors from "../../config/colors";
 
 const Profile = ({ navigation }) => {
   const [userPosts, setUserPosts] = useState([]);
@@ -61,7 +62,7 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     flex: 3,
-    backgroundColor: "#041f37",
+    backgroundColor: colors.primary,
     zIndex: 10,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,

@@ -78,12 +78,14 @@ const UserInfo = () => {
 
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.userImage}
-        source={{
-          uri: userImg,
-        }}
-      />
+      <View style={styles.profileBackground}>
+        <Image
+          style={styles.userImage}
+          source={{
+            uri: userImg,
+          }}
+        />
+      </View>
       <TouchableOpacity onPress={handleSignOut}>
         <MaterialCommunityIcons
           name="logout"
@@ -124,6 +126,7 @@ const styles = StyleSheet.create({
   userImage: {
     height: 100,
     width: 100,
+    marginBottom: 10,
   },
   userText: {
     fontWeight: "700",
@@ -136,5 +139,11 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     fontSize: 13,
     color: "white",
+  },
+  profileBackground: {
+    backgroundColor: "teal",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
   },
 });

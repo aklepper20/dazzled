@@ -5,52 +5,46 @@ import {
   TextInput,
   Pressable,
   TouchableOpacity,
-  Alert,
 } from "react-native";
 import React, { useState } from "react";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
-import auth from "../../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
-const LoginForm = ({ navigation }) => {
+import { sendPasswordResetEmail, getAuth } from "firebase/auth";
+
+const ForgotPasswordScreen = ({ navigation }) => {
+  const [authSuccessful, setAuthSuccessful] = useState(false);
+
   const LoginFormSchema = Yup.object().shape({
     email: Yup.string().email().required("An email is required"),
-    password: Yup.string()
-      .required()
-      .min(6, "Password must have at least 8 characters"),
   });
 
-  const onLogin = async (email, password) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-    } catch (err) {
-      Alert.alert(
-        `${email}, there's an issue!`,
-        err.message + "\n\n Please login again or sign up...",
-        [
-          {
-            text: "Try Again",
-            onPress: () => console.log("OK"),
-            style: "cancel",
-          },
-          {
-            text: "Sign up",
-            onPress: () => navigation.push("SignupScreen"),
-          },
-        ]
-      );
-    }
+  const handleForgotPassword = async (email) => {
+    const auth = getAuth();
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        setAuthSuccessful(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
+
+  const handleBacktoLogin = () => {
+    setAuthSuccessful(false);
+    navigation.navigate("LoginScreen");
   };
 
   return (
     <View style={styles.container}>
       <Formik
-        initialValues={{ email: "", password: "" }}
+        initialValues={{ email: "" }}
         onSubmit={(values) => {
-          onLogin(values.email, values.password);
+          handleForgotPassword(values.email);
         }}
         validationSchema={LoginFormSchema}
         validateOnMount={true}
@@ -65,6 +59,7 @@ const LoginForm = ({ navigation }) => {
           touched,
         }) => (
           <>
+            <Text style={styles.header}>Password Reset</Text>
             <View
               style={[
                 styles.inputField,
@@ -78,7 +73,7 @@ const LoginForm = ({ navigation }) => {
             >
               <TextInput
                 placeholderTextColor="#444"
-                placeholder="Phone number, email or usename"
+                placeholder="Enter Email"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 textContentType="emailAddress"
@@ -93,61 +88,37 @@ const LoginForm = ({ navigation }) => {
                 {errors.email}
               </Text>
             )}
-            <View>
-              <TextInput
-                style={[
-                  styles.inputField,
-                  {
-                    borderColor:
-                      1 > values.password.length || values.password.length > 6
-                        ? "#ccc"
-                        : "red",
-                  },
-                ]}
-                placeholderTextColor="#444"
-                placeholder="Password"
-                autoCapitalize="none"
-                autoCorrect={false}
-                secureTextEntry={true}
-                textContentType="password"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-              />
-            </View>
             {errors.password && touched.password && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.password}
               </Text>
             )}
-            <View style={styles.forgotPassword}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("ForgotPasswordScreen")}
-              >
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
+
             <Pressable
               titleSize={20}
               style={styles.button(isValid)}
               onPress={handleSubmit}
             >
-              <Text style={styles.buttonText}>Log in</Text>
+              <Text style={styles.buttonText}>Send to Reset Password</Text>
             </Pressable>
-            <View style={styles.signupContainer}>
-              <Text>Don't have an account? </Text>
-              <TouchableOpacity onPress={() => navigation.push("SignupScreen")}>
-                <Text style={styles.signUpText}>Sign Up!</Text>
-              </TouchableOpacity>
-            </View>
           </>
         )}
       </Formik>
+      {authSuccessful && (
+        <Text style={styles.resetConfirm}>
+          Please check your email for a reset link...
+        </Text>
+      )}
+      <View style={styles.signupContainer}>
+        <TouchableOpacity onPress={handleBacktoLogin}>
+          <Text style={styles.signUpText}>Back to Login Page</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   button: (isValid) => ({
@@ -162,6 +133,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 12,
     borderRadius: 8,
+    marginVertical: 50,
+  },
+  header: {
+    fontSize: 26,
+    fontWeight: "800",
   },
   inputField: {
     borderRadius: 8,
@@ -181,6 +157,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "black",
     fontSize: 20,
+  },
+  resetConfirm: {
+    color: "royalblue",
+    marginTop: 10,
+    fontWeight: "700",
   },
   signupContainer: {
     flexDirection: "row",

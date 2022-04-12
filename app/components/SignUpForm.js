@@ -34,6 +34,7 @@ const SignUpForm = ({ navigation }) => {
     const uuid = uuidv4();
     setRandomUID(uuid);
   }, []);
+
   const onSignUp = async (email, password) => {
     try {
       const authUser = await createUserWithEmailAndPassword(

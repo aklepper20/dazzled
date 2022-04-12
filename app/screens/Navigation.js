@@ -8,6 +8,7 @@ import SignupScreen from "./SignupScreen";
 import ProfileScreen from "./ProfileScreen";
 import ImageDetailsScreen from "./ImageDetailsScreen";
 import ChatRoomScreen from "./ChatRoomScreen";
+import ForgotPasswordScreen from "./ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,10 @@ export const SignedOutStack = () => (
     >
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
+      <Stack.Screen
+        name="ForgotPasswordScreen"
+        component={ForgotPasswordScreen}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );

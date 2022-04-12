@@ -21,13 +21,15 @@ const ForgotPasswordScreen = ({ navigation }) => {
     email: Yup.string().email().required("An email is required"),
   });
 
-  const handleForgotPassword = async (email) => {
+  const handleForgotPassword = async (email, { resetForm }) => {
     const auth = getAuth();
 
-    sendPasswordResetEmail(auth, email)
+    await sendPasswordResetEmail(auth, email)
       .then(() => {
         setAuthSuccessful(true);
+        resetForm();
       })
+
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -43,8 +45,8 @@ const ForgotPasswordScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Formik
         initialValues={{ email: "" }}
-        onSubmit={(values) => {
-          handleForgotPassword(values.email);
+        onSubmit={(values, { resetForm }) => {
+          handleForgotPassword(values.email, { resetForm });
         }}
         validationSchema={LoginFormSchema}
         validateOnMount={true}
@@ -53,6 +55,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
           handleChange,
           handleBlur,
           handleSubmit,
+          resetForm,
           values,
           isValid,
           errors,

@@ -39,6 +39,6 @@ const styles = StyleSheet.create({
     borderColor: colors.secondary,
   },
   name: {
-    color: "white",
+    color: colors.white,
   },
 });

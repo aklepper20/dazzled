@@ -17,19 +17,19 @@ import {
   orderBy,
 } from "firebase/firestore";
 
+import { REACT_APP_API_KEY } from "../../../apiKey";
+
 import Room from "./Room";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../config/colors";
-
-const API_KEY = "26600952-5557394967915b0df995251f6";
 
 const ChatFeed = ({ navigation }) => {
   const [input, setInput] = useState("");
   const [rooms, setRooms] = useState([]);
   const [inputData, setInputData] = useState("");
 
-  const URL = `https://pixabay.com/api/?key=${API_KEY}&q=${input}&image_type=photo`;
+  const URL = `https://pixabay.com/api/?key=${REACT_APP_API_KEY}&q=${input}&image_type=photo`;
 
   const getBackgroundImg = async () => {
     setInputData("");

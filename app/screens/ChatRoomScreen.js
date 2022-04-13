@@ -58,7 +58,7 @@ const ChatRoomScreen = ({ route }) => {
   const rightActions = (text) => {
     return (
       <Text style={styles.timestamp}>
-        {text?.timestamp?.toDate().toLocaleString().slice(10, 21)}
+        {text?.timestamp?.toDate().toLocaleString().slice(10, 22)}
       </Text>
     );
   };
@@ -114,7 +114,7 @@ const ChatRoomScreen = ({ route }) => {
           />
           <Button
             title="Send"
-            color={colors.black}
+            color={colors.pink}
             accessibilityLabel="Send message to the chat"
             onPress={handleSubmit}
           />
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginVertical: 15,
     alignSelf: "flex-end",
-    backgroundColor: colors.lightgrey,
+    backgroundColor: colors.white,
     borderRadius: 20,
   },
   chatUser: {
@@ -174,18 +174,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     height: 62,
-    borderTopColor: "lightgray",
+    borderTopColor: colors.lightgrey,
     borderTopWidth: 1,
   },
   input: {
     borderRadius: 30,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     flex: 1,
     padding: 10,
     marginHorizontal: 7,
   },
   roomContainer: {
-    borderBottomColor: "lightgray",
+    borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1,
     marginVertical: 10,
   },
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   timestamp: {
-    color: "white",
+    color: colors.white,
     fontSize: 10,
     marginVertical: 23,
     paddingRight: 5,

@@ -1,23 +1,20 @@
 import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import colors from "../../config/colors";
 
 export const bottomTabIcons = [
   {
     name: "Home",
-    active: "https://img.icons8.com/fluency-systems-filled/144/ffffff/home.png",
     inactive:
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/home.png",
   },
   {
     name: "Add Post",
-    active: "https://img.icons8.com/fluency-systems-filled/144/ffffff/add.png",
     inactive:
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/add.png",
   },
   {
     name: "Profile",
-    active:
-      "https://img.icons8.com/fluency-systems-filled/144/ffffff/profile.png",
     inactive:
       "https://img.icons8.com/fluency-systems-regular/48/ffffff/profile.png",
   },
@@ -29,23 +26,20 @@ const BottomTabs = ({ icons, navigation }) => {
   const handlePress = (icon) => {
     setActiveTab(icon.name);
 
+    if (icon.name === "HomeScreen") {
+      navigation.navigate("HomeScreen");
+    }
     if (icon.name === "Add Post") {
       navigation.navigate("PostEditScreen");
     }
     if (icon.name === "Profile") {
       navigation.navigate("ProfileScreen");
     }
-    if (icon.name === "Home") {
-      navigation.navigate("HomeScreen");
-    }
   };
 
   const Icon = ({ icon }) => (
     <TouchableOpacity onPress={() => handlePress(icon)}>
-      <Image
-        source={{ uri: activeTab === icon.name ? icon.active : icon.inactive }}
-        style={styles.icon}
-      />
+      <Image source={{ uri: icon.inactive }} style={styles.icon} />
     </TouchableOpacity>
   );
   return (
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
     width: "100%",
     bottom: "3%",
     zIndex: 999,
-    backgroundColor: "#041f37",
+    backgroundColor: colors.primary,
   },
   container: {
     borderColor: "grey",

@@ -6,7 +6,7 @@ import colors from "../../config/colors";
 const Date = ({ post }) => (
   <View style={styles.container}>
     <Text style={styles.date}>
-      {post?.timestamp?.toDate().toLocaleString().slice(0, 8)}
+      {post?.timestamp?.toDate().toLocaleString().slice(0, 9)}
     </Text>
   </View>
 );

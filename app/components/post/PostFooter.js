@@ -39,6 +39,10 @@ const PostFooter = ({ post }) => {
     } catch (err) {
       console.error("Error updating: ", err);
     }
+
+    () => {
+      return handleLike;
+    };
   };
 
   return (

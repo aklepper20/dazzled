@@ -13,7 +13,7 @@ const Room = ({ room, onPress }) => {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: room.image }} />
+        <Image style={styles.image} source={{ uri: room?.image }} />
         <Text style={styles.name}>
           {room.roomName?.length > 11
             ? room.roomName?.slice(0, 7).toLowerCase() + "..."

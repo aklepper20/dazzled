@@ -19,18 +19,17 @@ import {
   serverTimestamp,
   onSnapshot,
 } from "firebase/firestore";
+import colors from "../../config/colors";
 function ImageInput({
   imageUri,
   setImageUri,
   cameraRollCaption,
   setCameraRollCaption,
   navigation,
-  usersPosts,
   loggedInUserId,
   loggedInUsername,
 }) {
   const [isValid, setIsValid] = useState(false);
-
   const [userProfile, setUserProfile] = useState("");
 
   const getAllUsers = async () => {
@@ -115,7 +114,7 @@ function ImageInput({
         </View>
       </View>
       <Button
-        style={{ color: isValid ? "blue" : "red" }}
+        style={{ color: isValid ? colors.pink : colors.lightgrey }}
         onPress={addUserPost}
         title="Share Your Photo"
       ></Button>

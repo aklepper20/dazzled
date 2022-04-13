@@ -5,6 +5,7 @@ import {
   ScrollView,
   Alert,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -47,22 +48,43 @@ const ChatFeed = ({ navigation }) => {
     getBackgroundImg();
   }, [input]);
 
+  // const handle = async (text) => {
+  //   setInput(text);
+
+  //   if (input) {
+  //     const colRef = collection(db, "rooms");
+  //     addDoc(colRef, {
+  //       image: inputData,
+  //       roomName: input,
+  //     });
+  //   }
+  //   setInput("");
+  // };
+
   const handleAddRoom = () => {
     Alert.prompt("Add New Chat Room", "Please enter a name", [
       { text: "CANCEL", onPress: null },
-      { text: "OK", onPress: (text) => setInput(text) },
+      {
+        text: "OK",
+        onPress: (text) => setInput(text),
+      },
     ]);
-
-    if (input) {
-      const colRef = collection(db, "rooms");
-      addDoc(colRef, {
-        image: inputData,
-        roomName: input,
-      });
-    }
-    setInput("");
   };
 
+  const handleSendRoom = async () => {
+    try {
+      if (input) {
+        const colRef = collection(db, "rooms");
+        addDoc(colRef, {
+          image: inputData,
+          roomName: input,
+        });
+      }
+      setInput("");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const fetchRooms = async () => {
     try {
       const colRef = query(collection(db, "rooms"), orderBy("roomName", "asc"));
@@ -89,12 +111,13 @@ const ChatFeed = ({ navigation }) => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <Pressable onPress={handleAddRoom}>
           <View style={styles.addRoom}>
-            <MaterialCommunityIcons
-              name="plus-circle"
-              color={colors.black}
-              size={42}
-            />
-
+            <TouchableOpacity onPress={handleSendRoom}>
+              <MaterialCommunityIcons
+                name="plus-circle"
+                color={colors.black}
+                size={42}
+              />
+            </TouchableOpacity>
             <Text style={styles.nameText}>Add</Text>
           </View>
         </Pressable>

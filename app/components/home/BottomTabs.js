@@ -2,6 +2,8 @@ import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import colors from "../../config/colors";
 
+import { useNavigation } from "@react-navigation/native";
+
 export const bottomTabIcons = [
   {
     name: "Home",
@@ -20,12 +22,10 @@ export const bottomTabIcons = [
   },
 ];
 
-const BottomTabs = ({ icons, navigation }) => {
-  const [activeTab, setActiveTab] = useState("Home");
+const BottomTabs = ({ icons }) => {
+  const navigation = useNavigation();
 
   const handlePress = (icon) => {
-    setActiveTab(icon.name);
-
     if (icon.name === "HomeScreen") {
       navigation.navigate("HomeScreen");
     }
@@ -38,7 +38,11 @@ const BottomTabs = ({ icons, navigation }) => {
   };
 
   const Icon = ({ icon }) => (
-    <TouchableOpacity onPress={() => handlePress(icon)}>
+    <TouchableOpacity
+      accessible={true}
+      accessibilityLabel="Go to Page"
+      onPress={() => handlePress(icon)}
+    >
       <Image source={{ uri: icon.inactive }} style={styles.icon} />
     </TouchableOpacity>
   );

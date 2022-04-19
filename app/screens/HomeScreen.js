@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
+
 import Header from "../components/home/Header";
 import Post from "../components/post/Post";
 import BottomTabs from "../components/home/BottomTabs";
@@ -18,7 +19,7 @@ import {
   query,
 } from "firebase/firestore";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -46,8 +47,8 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header navigation={navigation} />
-      <ChatFeed navigation={navigation} />
+      <Header />
+      <ChatFeed />
       {loading ? (
         <ActivityIndicator animating={loading} size="large" />
       ) : (
@@ -57,7 +58,7 @@ const HomeScreen = ({ navigation }) => {
           ))}
         </ScrollView>
       )}
-      <BottomTabs icons={bottomTabIcons} navigation={navigation} />
+      <BottomTabs icons={bottomTabIcons} />
     </SafeAreaView>
   );
 };

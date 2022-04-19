@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Image, TextInput, Button } from "react-native";
 import React, { useState, useEffect } from "react";
 
+import { useNavigation } from "@react-navigation/native";
+
 import * as Yup from "yup";
 import { Formik } from "formik";
 import validUrl from "valid-url";
@@ -18,12 +20,14 @@ const uploadPostSchema = Yup.object().shape({
   caption: Yup.string().max(2200, "Caption has reached the character limit."),
 });
 
-const PostUpload = ({ navigation, usersPosts }) => {
+const PostUpload = () => {
   const [thumbnailUrl, setThumbnailUrl] = useState(PLACEHOLDER_IMG);
   const [loggedInUsername, setLoggedInUsername] = useState(null);
   const [loggedInUserId, setLoggedInUserId] = useState(auth.currentUser.email);
   const [imageUri, setImageUri] = useState(null);
   const [cameraRollCaption, setCameraRollCaption] = useState("");
+
+  const navigation = useNavigation();
 
   const getUsername = () => {
     const user = auth.currentUser.email;
@@ -131,9 +135,11 @@ const PostUpload = ({ navigation, usersPosts }) => {
             onPress={handleSubmit}
             title="Share Image URL"
             disabled={!isValid}
+            accessible={true}
+            accessibilityLabel="Upload Post!"
           ></Button>
           <ImageInput
-            usersPosts={usersPosts}
+            // usersPosts={usersPosts}
             navigation={navigation}
             imageUri={imageUri}
             setImageUri={setImageUri}

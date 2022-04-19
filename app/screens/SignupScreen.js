@@ -3,7 +3,7 @@ import React from "react";
 import SignUpForm from "../components/SignUpForm";
 import colors from "../config/colors";
 
-const SignupScreen = ({ navigation }) => {
+const SignupScreen = () => {
   return (
     <View style={styles.background}>
       <View style={styles.logoContainer}>
@@ -13,7 +13,7 @@ const SignupScreen = ({ navigation }) => {
         />
         <Text style={styles.logo}>Dazzle</Text>
       </View>
-      <SignUpForm navigation={navigation} />
+      <SignUpForm />
     </View>
   );
 };

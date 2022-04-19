@@ -11,7 +11,11 @@ import colors from "../../config/colors";
 
 const Room = ({ room, onPress }) => {
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableWithoutFeedback
+      accessible={true}
+      accessibilityLabel="Go to chatRoom"
+      onPress={onPress}
+    >
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: room?.image }} />
         <Text style={styles.name}>

@@ -7,6 +7,7 @@ import {
   Button,
   ScrollView,
 } from "react-native";
+
 import auth, { db } from "../../firebase";
 import {
   onSnapshot,
@@ -17,6 +18,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+
 import React, { useEffect, useState, useRef } from "react";
 import { Swipeable } from "react-native-gesture-handler";
 import colors from "../config/colors";

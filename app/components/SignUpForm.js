@@ -9,6 +9,8 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { Formik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
@@ -17,12 +19,19 @@ import { doc, setDoc } from "firebase/firestore";
 import auth from "../../firebase";
 import { db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+
+import { useDispatch, useSelector } from "react-redux";
+import userDataSlice, { setUserData } from "../store/userDataSlice";
+
 import { v4 as uuidv4 } from "uuid";
 import colors from "../config/colors";
 
-const SignUpForm = ({ navigation }) => {
+const SignUpForm = () => {
   const [gif, setGif] = useState("");
-  const [randomUID, setRandomUID] = useState();
+
+  const navigation = useNavigation();
+
+  const dispatch = useDispatch();
 
   const SignUpFormSchema = Yup.object().shape({
     email: Yup.string().email().required("Email Required"),
@@ -36,9 +45,8 @@ const SignUpForm = ({ navigation }) => {
   });
 
   useEffect(() => {
-    const uuid = uuidv4();
-    setRandomUID(uuid);
-    setGif(`https://robohash.org/${randomUID}`);
+    let random = (Math.random() + 1).toString(36).substring(7);
+    setGif(`https://robohash.org/${random}`);
   }, []);
 
   const onSignUp = async (email, password) => {
@@ -47,6 +55,12 @@ const SignUpForm = ({ navigation }) => {
         auth,
         email,
         password
+      );
+      dispatch(
+        setUserData({
+          owner_uid: authUser.user.uid,
+          email: authUser.user.email,
+        })
       );
       await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,

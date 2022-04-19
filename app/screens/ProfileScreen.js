@@ -4,12 +4,12 @@ import Profile from "../components/profile/Profile";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import colors from "../config/colors";
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = () => {
   return (
     <>
       <View style={styles.container}>
-        <ProfileHeader navigation={navigation} />
-        <Profile navigation={navigation} />
+        <ProfileHeader />
+        <Profile />
       </View>
     </>
   );

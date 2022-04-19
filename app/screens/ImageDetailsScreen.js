@@ -8,8 +8,11 @@ import {
 } from "react-native";
 import React from "react";
 
-const ImageDetailsScreen = ({ route, navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+
+const ImageDetailsScreen = ({ route }) => {
   const post = route.params;
+  const navigation = useNavigation();
 
   return (
     <>

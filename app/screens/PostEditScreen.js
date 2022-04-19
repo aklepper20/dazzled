@@ -1,13 +1,11 @@
 import { StyleSheet, SafeAreaView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddNewPost from "../components/postEdit/AddNewPost";
 
-const PostEditScreen = ({ navigation }) => {
-  const [usersPosts, setUsersPosts] = useState([]);
-
+const PostEditScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <AddNewPost navigation={navigation} usersPosts={usersPosts} />
+      <AddNewPost />
     </SafeAreaView>
   );
 };

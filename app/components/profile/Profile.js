@@ -3,14 +3,18 @@ import React, { useState, useEffect } from "react";
 import UserInfo from "./UserInfo";
 import Post from "./Post";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
 import { doc, onSnapshot, collection } from "firebase/firestore";
 import colors from "../../config/colors";
 
-const Profile = ({ navigation }) => {
+const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const navigation = useNavigation();
 
   const getPosts = async () => {
     setLoading(true);
@@ -46,6 +50,8 @@ const Profile = ({ navigation }) => {
             likes={item.likes_by_users}
             timestamp={item.timestamp}
             user={item.user}
+            accessible={true}
+            accessibilityLabel="Image Details Screen!"
             onPress={() => navigation.navigate("ImageDetailsScreen", item)}
             navigation={navigation}
           />

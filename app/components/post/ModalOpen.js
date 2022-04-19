@@ -13,7 +13,11 @@ const ModalOpen = ({ post, visible, setVisible }) => {
     <Modal transparent visible={visible} animationType="fade">
       <View style={styles.modalBackground}>
         <View style={styles.modalContainer}>
-          <TouchableOpacity onPress={() => setVisible(false)}>
+          <TouchableOpacity
+            accessible={true}
+            accessibilityLabel="See Post's Likes!"
+            onPress={() => setVisible(false)}
+          >
             <Text style={styles.closeButton}>X</Text>
             <Text style={styles.title}>Likes</Text>
             {post.likes_by_users.length === 0 ? (

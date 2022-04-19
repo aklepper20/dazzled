@@ -6,13 +6,21 @@ import {
 } from "react-native";
 import React from "react";
 
-const ProfileHeader = ({ navigation }) => {
+import { useNavigation } from "@react-navigation/native";
+
+const ProfileHeader = () => {
+  const navigation = useNavigation();
+
   return (
     <ImageBackground
       style={styles.background}
       source={require("../../assets/profileBackground.jpg")}
     >
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <TouchableOpacity
+        accessible={true}
+        accessibilityLabel="Back to Homescreen"
+        onPress={() => navigation.goBack()}
+      >
         <Image
           style={styles.imageBack}
           source={{

@@ -56,7 +56,11 @@ const PostFooter = ({ post }) => {
             </Text>
           </TouchableOpacity>
         </Text>
-        <TouchableOpacity onPress={() => handleLike({ post })}>
+        <TouchableOpacity
+          accessible={true}
+          accessibilityLabel="Like Post!"
+          onPress={() => handleLike({ post })}
+        >
           <Image
             style={styles.footerIcon}
             source={

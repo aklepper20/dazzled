@@ -8,6 +8,9 @@ import {
   TextInput,
   Button,
 } from "react-native";
+
+import { useNavigation } from "@react-navigation/native";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { db } from "../../../firebase";
@@ -20,17 +23,19 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import colors from "../../config/colors";
+
 function ImageInput({
   imageUri,
   setImageUri,
   cameraRollCaption,
   setCameraRollCaption,
-  navigation,
   loggedInUserId,
   loggedInUsername,
 }) {
   const [isValid, setIsValid] = useState(false);
   const [userProfile, setUserProfile] = useState("");
+
+  const navigation = useNavigation();
 
   const getAllUsers = async () => {
     try {
@@ -117,6 +122,8 @@ function ImageInput({
         style={{ color: isValid ? colors.pink : colors.lightgrey }}
         onPress={addUserPost}
         title="Share Your Photo"
+        accessible={true}
+        accessibilityLabel="Upload Post!"
       ></Button>
     </>
   );

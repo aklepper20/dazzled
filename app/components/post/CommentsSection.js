@@ -10,7 +10,11 @@ const CommentsSection = ({
   return (
     <View>
       {!!post.comments.length && (
-        <TouchableOpacity onPress={() => setViewComments(!viewComments)}>
+        <TouchableOpacity
+          accessible={true}
+          accessibilityLabel="View Comments!"
+          onPress={() => setViewComments(!viewComments)}
+        >
           <Text style={styles.comment}>
             {commentStatus} {post.comments.length > 1 ? " all " : ""}{" "}
             {post.comments.length}{" "}

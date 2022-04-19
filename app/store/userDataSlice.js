@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: null,
+  // owner_uid: null,
+  // email: null,
+  // avatar: null,
 };
 
 export const userDataSlice = createSlice({
@@ -9,11 +11,17 @@ export const userDataSlice = createSlice({
   initialState,
   reducers: {
     setUserData: (state, action) => {
-      state.value = action.payload;
+      // state.owner_uid = action.payload.owner_uid;
+      // state.email = action.payload.email;
+      // state.avatar = action.payload.avatar;
+    },
+    logoutUserData: (state) => {
+      // state.owner_uid = null;
+      // state.email = null;
+      // state.userDataAvatar = null;
     },
   },
 });
 
-export const { setUserData } = userDataSlice.actions;
-
+export const { setUserData, logoutUserData } = userDataSlice.actions;
 export default userDataSlice.reducer;

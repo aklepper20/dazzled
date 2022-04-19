@@ -7,11 +7,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-
+import { useSelector } from "react-redux";
 import auth from "../../../firebase";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { signOut } from "firebase/auth";
+
+import { useDispatch } from "react-redux";
+import { logoutUserData } from "../../store/userDataSlice";
 
 import * as Location from "expo-location";
 
@@ -21,6 +24,8 @@ import colors from "../../config/colors";
 const UserInfo = () => {
   const [userImg, setUserImg] = useState();
   const [location, setLocation] = useState();
+
+  const dispatch = useDispatch();
 
   const getUserImg = async () => {
     try {
@@ -66,7 +71,9 @@ const UserInfo = () => {
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
+      await signOut(auth).then(() => {
+        dispatch(logoutUserData());
+      });
     } catch (err) {
       console.log(err);
     }
@@ -87,7 +94,11 @@ const UserInfo = () => {
           }}
         />
       </View>
-      <TouchableOpacity onPress={handleSignOut}>
+      <TouchableOpacity
+        accessible={true}
+        accessibilityLabel="Logout"
+        onPress={handleSignOut}
+      >
         <MaterialCommunityIcons
           name="logout"
           color={colors.lightgrey}

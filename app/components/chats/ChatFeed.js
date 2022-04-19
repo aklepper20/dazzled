@@ -18,6 +18,8 @@ import {
   orderBy,
 } from "firebase/firestore";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { REACT_APP_API_KEY } from "../../../apiKey";
 
 import Room from "./Room";
@@ -25,10 +27,12 @@ import Room from "./Room";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../config/colors";
 
-const ChatFeed = ({ navigation }) => {
+const ChatFeed = () => {
   const [input, setInput] = useState("");
   const [rooms, setRooms] = useState([]);
   const [inputData, setInputData] = useState("");
+
+  const navigation = useNavigation();
 
   const URL = `https://pixabay.com/api/?key=${REACT_APP_API_KEY}&q=${input}&image_type=photo`;
 
@@ -109,7 +113,11 @@ const ChatFeed = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        <Pressable onPress={handleAddRoom}>
+        <Pressable
+          accessible={true}
+          accessibilityLabel="Go to Room"
+          onPress={handleAddRoom}
+        >
           <View style={styles.addRoom}>
             <TouchableOpacity onPress={handleSendRoom}>
               <MaterialCommunityIcons

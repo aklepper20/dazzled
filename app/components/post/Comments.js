@@ -2,15 +2,8 @@ import { Text, View, TextInput, Dimensions, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import auth from "../../../firebase";
 import { db } from "../../../firebase";
-import {
-  arrayRemove,
-  arrayUnion,
-  updateDoc,
-  doc,
-  collection,
-} from "firebase/firestore";
-import Swipeable from "react-native-gesture-handler/Swipeable";
-import { v4 as uuidv4 } from "uuid";
+import { arrayUnion, updateDoc, doc, collection } from "firebase/firestore";
+
 import colors from "../../config/colors";
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const Comments = ({ post, viewComments }) => {
@@ -26,7 +19,6 @@ const Comments = ({ post, viewComments }) => {
         comments: arrayUnion({
           user: auth.currentUser.email,
           comment: comment,
-          id: uuidv4(),
         }),
       }).then(() => {
         console.log("Doc added successfully");
@@ -40,16 +32,14 @@ const Comments = ({ post, viewComments }) => {
   return (
     <>
       {viewComments &&
-        post.comments.map((comment) => {
+        post.comments.map((comment, i) => {
           return (
-            <Swipeable key={comment.id}>
-              <Text style={styles.commentContainer}>
-                <Text style={styles.footerText}>
-                  <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
-                  {comment.comment}
-                </Text>
+            <Text key={i} style={styles.commentContainer}>
+              <Text style={styles.footerText}>
+                <Text style={styles.captionUsername}>{comment.user}</Text>{" "}
+                {comment.comment}
               </Text>
-            </Swipeable>
+            </Text>
           );
         })}
       <View style={styles.inputContainer}>

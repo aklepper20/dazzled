@@ -52,19 +52,6 @@ const ChatFeed = () => {
     getBackgroundImg();
   }, [input]);
 
-  // const handle = async (text) => {
-  //   setInput(text);
-
-  //   if (input) {
-  //     const colRef = collection(db, "rooms");
-  //     addDoc(colRef, {
-  //       image: inputData,
-  //       roomName: input,
-  //     });
-  //   }
-  //   setInput("");
-  // };
-
   const handleAddRoom = () => {
     Alert.prompt("Add New Chat Room", "Please enter a name", [
       { text: "CANCEL", onPress: null },

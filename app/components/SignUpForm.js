@@ -31,7 +31,7 @@ const SignUpForm = () => {
     email: Yup.string().email().required("Email Required"),
     password: Yup.string()
       .required("Password Required")
-      .min(6, "Password must have at least 8 characters"),
+      .min(6, "Password must have at least 6 characters"),
     passwordConfirmation: Yup.string().oneOf(
       [Yup.ref("password"), null],
       "Passwords must match"
@@ -50,7 +50,6 @@ const SignUpForm = () => {
         email,
         password
       );
-
       await setDoc(doc(db, "users", authUser.user.email), {
         owner_uid: authUser.user.uid,
         email: authUser.user.email,

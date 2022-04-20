@@ -139,7 +139,6 @@ const PostUpload = () => {
             accessibilityLabel="Upload Post!"
           ></Button>
           <ImageInput
-            // usersPosts={usersPosts}
             navigation={navigation}
             imageUri={imageUri}
             setImageUri={setImageUri}

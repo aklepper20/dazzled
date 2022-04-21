@@ -5,7 +5,9 @@ import { db } from "../../../firebase";
 import { arrayUnion, updateDoc, doc, collection } from "firebase/firestore";
 
 import colors from "../../config/colors";
+
 const SCREEN_WIDTH = Dimensions.get("window").width;
+
 const Comments = ({ post, viewComments }) => {
   const [comment, setComment] = useState("");
 

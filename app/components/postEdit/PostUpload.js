@@ -9,7 +9,13 @@ import validUrl from "valid-url";
 
 import { db } from "../../../firebase";
 import auth from "../../../firebase";
-import { doc, onSnapshot } from "firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import ImageInput from "./ImageInput";
 
 const PLACEHOLDER_IMG =
@@ -61,7 +67,6 @@ const PostUpload = () => {
   const addUserPost = async (caption, imageUrl) => {
     const docRef = doc(db, "users", loggedInUserId);
     const colRef = collection(docRef, "posts");
-
     addDoc(colRef, {
       imageUrl: imageUrl,
       caption: caption,
@@ -73,7 +78,6 @@ const PostUpload = () => {
       timestamp: serverTimestamp(),
       owner_profile: userProfile,
     }).then(() => navigation.goBack());
-    setImageUri(null);
   };
 
   return (

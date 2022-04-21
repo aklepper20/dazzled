@@ -32,10 +32,9 @@ const SignUpForm = () => {
     password: Yup.string()
       .required("Password Required")
       .min(6, "Password must have at least 6 characters"),
-    passwordConfirmation: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
+    passwordConfirmation: Yup.string()
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Password Confirmation Required"),
   });
 
   useEffect(() => {
@@ -114,7 +113,7 @@ const SignUpForm = () => {
                   styles.inputField,
                   {
                     borderColor:
-                      1 > values.password.length || values.password.length > 6
+                      1 > values.password.length || values.password.length >= 6
                         ? "#ccc"
                         : "red",
                   },
@@ -142,7 +141,7 @@ const SignUpForm = () => {
                   styles.inputField,
                   {
                     borderColor:
-                      1 > values.password.length || values.password.length > 6
+                      1 >= values.password.length || values.password.length >= 6
                         ? "#ccc"
                         : "red",
                   },
@@ -158,7 +157,7 @@ const SignUpForm = () => {
                 value={values.passwordConfirmation}
               />
             </View>
-            {errors.passwordConfirmation && (
+            {errors.passwordConfirmation && touched.passwordConfirmation && (
               <Text style={{ fontSize: 10, marginBottom: 4, color: "red" }}>
                 {errors.passwordConfirmation}
               </Text>

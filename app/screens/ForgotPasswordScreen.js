@@ -6,7 +6,10 @@ import {
   Pressable,
   TouchableOpacity,
 } from "react-native";
+
 import React, { useState } from "react";
+
+import colors from "../config/colors";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -123,7 +126,7 @@ export default ForgotPasswordScreen;
 
 const styles = StyleSheet.create({
   button: (isValid) => ({
-    backgroundColor: isValid ? "yellow" : "blue",
+    backgroundColor: isValid ? colors.pink : colors.lightgrey,
     alignItems: "center",
     borderRadius: 8,
     justifyContent: "center",

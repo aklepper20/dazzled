@@ -112,7 +112,6 @@ function ImageInput({
             style={styles.inputText}
             placeholder="Enter your caption..."
             placeholderTextColor="grey"
-            multiline={true}
             value={cameraRollCaption}
             onChange={(e) => setCameraRollCaption(e.nativeEvent.text)}
           />

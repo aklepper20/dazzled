@@ -2,6 +2,8 @@
   "expo": {
     "name": "dazzled",
     "slug": "dazzled",
+    "privacy": "public",
+    "description": "Social media platform",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",

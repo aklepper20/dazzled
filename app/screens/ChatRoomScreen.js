@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 
 import auth, { db } from "../../firebase";
@@ -67,61 +68,63 @@ const ChatRoomScreen = ({ route }) => {
 
   return (
     <>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.roomContainer}>
-          <Text style={styles.nameText}>
-            {singleRoom.roomName.toUpperCase()}
-          </Text>
-        </View>
+      <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
+        <SafeAreaView style={styles.container}>
+          <View style={styles.roomContainer}>
+            <Text style={styles.nameText}>
+              {singleRoom.roomName.toUpperCase()}
+            </Text>
+          </View>
 
-        <ScrollView
-          style={styles.chatContainer}
-          alwaysBounceVertical={true}
-          ref={scrollViewRef}
-          onContentSizeChange={() =>
-            scrollViewRef.current.scrollToEnd({ animated: true })
-          }
-        >
-          {messagesArr.map((text, i) => (
-            <Swipeable key={i} renderRightActions={() => rightActions(text)}>
-              <View
-                style={
-                  text.name === auth.currentUser.email
-                    ? styles.chatReciever
-                    : styles.chatMessage
-                }
-              >
-                <Text
+          <ScrollView
+            style={styles.chatContainer}
+            alwaysBounceVertical={true}
+            ref={scrollViewRef}
+            onContentSizeChange={() =>
+              scrollViewRef.current.scrollToEnd({ animated: true })
+            }
+          >
+            {messagesArr.map((text, i) => (
+              <Swipeable key={i} renderRightActions={() => rightActions(text)}>
+                <View
                   style={
                     text.name === auth.currentUser.email
-                      ? styles.chatRecieverMessage
-                      : styles.chatUser
+                      ? styles.chatReciever
+                      : styles.chatMessage
                   }
                 >
-                  {text.name}
-                </Text>
-                <Text>{text.message}</Text>
-              </View>
-            </Swipeable>
-          ))}
-        </ScrollView>
+                  <Text
+                    style={
+                      text.name === auth.currentUser.email
+                        ? styles.chatRecieverMessage
+                        : styles.chatUser
+                    }
+                  >
+                    {text.name}
+                  </Text>
+                  <Text>{text.message}</Text>
+                </View>
+              </Swipeable>
+            ))}
+          </ScrollView>
 
-        <View style={styles.footer}>
-          <TextInput
-            style={styles.input}
-            keyboardType="default"
-            placeholder="Enter a message..."
-            onChangeText={setInputValue}
-            value={inputValue}
-          />
-          <Button
-            title="Send"
-            color={colors.pink}
-            accessibilityLabel="Send message to the chat"
-            onPress={handleSubmit}
-          />
-        </View>
-      </SafeAreaView>
+          <View style={styles.footer}>
+            <TextInput
+              style={styles.input}
+              keyboardType="default"
+              placeholder="Enter a message..."
+              onChangeText={setInputValue}
+              value={inputValue}
+            />
+            <Button
+              title="Send"
+              color={colors.pink}
+              accessibilityLabel="Send message to the chat"
+              onPress={handleSubmit}
+            />
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     </>
   );
 };

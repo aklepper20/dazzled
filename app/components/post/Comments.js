@@ -1,4 +1,11 @@
-import { Text, View, TextInput, Dimensions, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TextInput,
+  Dimensions,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from "react-native";
 import React, { useState } from "react";
 import auth from "../../../firebase";
 import { db } from "../../../firebase";
